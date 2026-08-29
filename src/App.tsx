@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  INITIAL_WALLET_STATE,
   MOCK_STATS,
   INITIAL_PROMISES,
   INITIAL_ACTIVITIES,
 } from './data/mockData';
-import { PromiseItem, ActivityItem, WalletState, StatsData } from './types';
-import { connectMetaMask } from './services/web3';
+import { PromiseItem, ActivityItem, StatsData } from './types';
+import { useMonadWallet } from './hooks/useMonadWallet';
 
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
@@ -22,9 +21,20 @@ import { CreatePromisePage } from './pages/CreatePromisePage';
 import { PromiseDetailsPage } from './pages/PromiseDetailsPage';
 import { ActivityPage } from './pages/ActivityPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { AlertTriangle, RefreshCw } from 'lucide-react';
 
 export function App() {
-  const [wallet, setWallet] = useState<WalletState>(INITIAL_WALLET_STATE);
+  // Real Wagmi + Viem + MetaMask Wallet Integration Hook
+  const {
+    walletState,
+    isConnecting,
+    isLoadingBalance,
+    connectWallet,
+    disconnectWallet,
+    switchNetwork,
+    refetchBalance,
+  } = useMonadWallet();
+
   const [stats, setStats] = useState<StatsData>(MOCK_STATS);
   const [promises, setPromises] = useState<PromiseItem[]>(INITIAL_PROMISES);
   const [activities, setActivities] = useState<ActivityItem[]>(INITIAL_ACTIVITIES);
@@ -44,20 +54,17 @@ export function App() {
     }, 4000);
   };
 
-  // Toggle/Connect MetaMask Wallet
+  // Toggle/Connect Wallet Handler
   const handleToggleWallet = async () => {
-    if (wallet.isConnected) {
-      setWallet({ ...wallet, isConnected: false });
+    if (walletState.isConnected) {
+      disconnectWallet();
       showToast('Wallet disconnected');
     } else {
       try {
-        const info = await connectMetaMask();
-        setWallet(info);
-        showToast(`Connected ${info.address} to ${info.network}`);
+        await connectWallet();
+        showToast('Wallet connected to Monad Testnet');
       } catch (err: any) {
-        // Fallback simulate connection
-        setWallet({ ...wallet, isConnected: true });
-        showToast('MetaMask connected to Monad Testnet');
+        showToast(err.message || 'User rejected wallet connection');
       }
     }
   };
@@ -112,6 +119,7 @@ export function App() {
     };
     setActivities([newActivity, ...activities]);
 
+    refetchBalance();
     showToast(`Locked ${newPromise.amount} MON on Monad Testnet! Tx: ${newPromise.txHash.slice(0, 10)}...`);
   };
 
@@ -159,6 +167,7 @@ export function App() {
     };
     setActivities([newActivity, ...activities]);
 
+    refetchBalance();
     showToast(`Claimed ${promise.amount} MON! Settled on Monad Testnet.`);
   };
 
@@ -178,9 +187,27 @@ export function App() {
       {/* Toast Notification */}
       <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
 
+      {/* Top Network Warning Banner if connected to Wrong Network */}
+      {walletState.isConnected && !walletState.isCorrectNetwork && (
+        <div className="bg-gradient-to-r from-amber-600 to-rose-600 text-white px-4 py-2.5 text-xs font-bold flex items-center justify-between shadow-md z-50">
+          <div className="flex items-center gap-2 max-w-7xl mx-auto w-full justify-between">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 animate-bounce" />
+              <span>Wrong Network: Connected to Chain ID {walletState.chainId}. Please switch to Monad Testnet.</span>
+            </div>
+            <button
+              onClick={switchNetwork}
+              className="px-3 py-1 bg-white text-slate-900 rounded-lg text-xs font-extrabold hover:bg-slate-100 transition-all shadow-sm"
+            >
+              Switch to Monad Testnet
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Top Navbar */}
       <Navbar
-        wallet={wallet}
+        wallet={walletState}
         onToggleWallet={handleToggleWallet}
         onOpenCreate={handleOpenCreatePage}
         currentView={currentView}
@@ -195,7 +222,7 @@ export function App() {
         <CreatePromisePage
           onBack={handleNavigateHome}
           onCreatePromise={handleCreatePromise}
-          userBalance={wallet.balance}
+          userBalance={walletState.balance}
         />
       ) : currentView === 'detail' && selectedPromise ? (
         <PromiseDetailsPage
@@ -211,7 +238,7 @@ export function App() {
         />
       ) : currentView === 'profile' ? (
         <ProfilePage
-          wallet={wallet}
+          wallet={walletState}
           stats={stats}
           onBack={handleNavigateHome}
           onToggleWallet={handleToggleWallet}
