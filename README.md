@@ -179,3 +179,6 @@ npx hardhat test
 ## 📄 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
+Contact Details : 
+email id: vivekrai2416@gmail.com
+phone no. : +91 9354632327 
