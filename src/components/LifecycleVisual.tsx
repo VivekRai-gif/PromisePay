@@ -10,9 +10,9 @@ export const LifecycleVisual: React.FC = () => {
       name: 'CREATE PROMISE',
       tag: 'STAGE 01',
       icon: Sparkles,
-      color: 'from-[#D9579D] to-[#A982C4]',
-      borderColor: 'border-[#D9579D]/40',
-      badgeColor: 'bg-[#3A1E3B]/80 text-[#E89AC1]',
+      color: 'from-[#CFFF00] to-[#19D98B]',
+      borderColor: 'border-[#CFFF00]/40',
+      badgeColor: 'bg-[#CFFF00]/10 text-[#CFFF00]',
       description: 'Define recipient wallet, native MON amount, and promise condition.',
       detail: 'The sender commits to a real-world promise by specifying clear release criteria.',
     },
@@ -21,9 +21,9 @@ export const LifecycleVisual: React.FC = () => {
       name: 'LOCK FUNDS',
       tag: 'STAGE 02',
       icon: Lock,
-      color: 'from-[#C25D8E] to-[#3A1E3B]',
-      borderColor: 'border-[#C25D8E]/40',
-      badgeColor: 'bg-[#3A1E3B]/80 text-[#E89AC1]',
+      color: 'from-[#19D98B] to-[#00C878]',
+      borderColor: 'border-[#19D98B]/40',
+      badgeColor: 'bg-[#19D98B]/15 text-[#19D98B]',
       description: 'MON is transferred & locked into the PromisePay smart contract.',
       detail: 'Funds are securely escrowed. No party can alter or withdraw arbitrarily.',
     },
@@ -32,9 +32,9 @@ export const LifecycleVisual: React.FC = () => {
       name: 'VERIFY CONDITION',
       tag: 'STAGE 03',
       icon: ShieldCheck,
-      color: 'from-[#A982C4] to-[#5A2A61]',
-      borderColor: 'border-[#A982C4]/40',
-      badgeColor: 'bg-[#3A1E3B]/80 text-[#A982C4]',
+      color: 'from-[#8B5CF6] to-[#7C3AED]',
+      borderColor: 'border-[#8B5CF6]/40',
+      badgeColor: 'bg-[#8B5CF6]/15 text-[#8B5CF6]',
       description: 'Predefined condition is verified on Monad Testnet.',
       detail: 'Verification state updates on-chain once milestone criteria are met.',
     },
@@ -43,32 +43,32 @@ export const LifecycleVisual: React.FC = () => {
       name: 'RELEASE & SETTLE',
       tag: 'STAGE 04',
       icon: CheckCircle2,
-      color: 'from-emerald-400 to-teal-500',
-      borderColor: 'border-emerald-500/40',
-      badgeColor: 'bg-emerald-500/15 text-emerald-300',
+      color: 'from-[#CFFF00] to-[#B8F000]',
+      borderColor: 'border-[#CFFF00]/40',
+      badgeColor: 'bg-[#CFFF00]/15 text-[#CFFF00]',
       description: 'Recipient clicks Claim and receives native MON directly.',
       detail: 'Money remembers the promise and transfers automatically without manual chasing.',
     },
   ];
 
   return (
-    <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 glass-protocol-primary shadow-card mb-10 border border-white/12">
+    <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 glass-lime-primary shadow-card mb-10 border border-white/10">
       {/* Circuit background overlay */}
-      <div className="absolute inset-0 circuit-grid pointer-events-none opacity-40" />
+      <div className="absolute inset-0 circuit-grid pointer-events-none opacity-30" />
 
       {/* Section Header */}
       <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-[#E89AC1] uppercase tracking-wider mb-1">
-            <Cpu className="w-3.5 h-3.5 text-[#D9579D]" />
+          <div className="flex items-center gap-2 text-xs font-bold text-[#CFFF00] uppercase tracking-wider mb-1">
+            <Cpu className="w-3.5 h-3.5 text-[#CFFF00]" />
             <span>Protocol Architecture</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
             The Programmable Commitment Lifecycle
           </h2>
         </div>
-        <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-[11px] text-[#AAA3AF]">
-          <Info className="w-3.5 h-3.5 text-[#A982C4]" />
+        <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-[11px] text-[#9AA4B2]">
+          <Info className="w-3.5 h-3.5 text-[#8B5CF6]" />
           <span>Hover stages to inspect</span>
         </div>
       </div>
@@ -85,8 +85,8 @@ export const LifecycleVisual: React.FC = () => {
               onMouseEnter={() => setActiveStep(idx)}
               className={`relative flex flex-col p-5 rounded-2xl transition-all duration-300 cursor-pointer ${
                 isSelected
-                  ? 'bg-[#241426]/90 border ' + step.borderColor + ' shadow-glowPink transform -translate-y-1'
-                  : 'bg-white/[0.03] hover:bg-white/[0.07] border border-white/10'
+                  ? 'bg-[#10151B]/90 border ' + step.borderColor + ' shadow-glowLime transform -translate-y-1'
+                  : 'bg-white/[0.03] hover:bg-white/[0.06] border border-white/10'
               }`}
             >
               {/* Top Tag & Connecting Arrow */}
@@ -96,26 +96,26 @@ export const LifecycleVisual: React.FC = () => {
                 </span>
                 {idx < steps.length - 1 && (
                   <div className="hidden lg:flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D9579D] animate-node-pulse" />
-                    <ArrowRight className="w-3.5 h-3.5 text-[#726B77]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#CFFF00] animate-node-pulse" />
+                    <ArrowRight className="w-3.5 h-3.5 text-[#64748B]" />
                   </div>
                 )}
               </div>
 
               {/* Icon */}
               <div className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${step.color} p-[1px] mb-3 shadow-md`}>
-                <div className="w-full h-full bg-[#121017] rounded-[15px] flex items-center justify-center">
+                <div className="w-full h-full bg-[#0C1015] rounded-[15px] flex items-center justify-center">
                   <IconComponent className="w-5 h-5 text-white" />
                 </div>
               </div>
 
               {/* Title & Description */}
               <h3 className="text-sm font-extrabold text-white mb-1 tracking-tight">{step.name}</h3>
-              <p className="text-xs text-[#AAA3AF] font-normal leading-relaxed">{step.description}</p>
+              <p className="text-xs text-[#9AA4B2] font-normal leading-relaxed">{step.description}</p>
 
               {/* Detail drawer on hover */}
               {isSelected && (
-                <div className="mt-3 pt-2.5 border-t border-white/10 text-[11px] text-[#E89AC1] font-medium animate-fadeIn">
+                <div className="mt-3 pt-2.5 border-t border-white/10 text-[11px] text-[#CFFF00] font-medium animate-fadeIn">
                   {step.detail}
                 </div>
               )}
