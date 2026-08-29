@@ -36,6 +36,22 @@ export interface Web3WalletInfo {
 }
 
 /**
+ * Fetch live native MON balance directly from connected MetaMask window.ethereum provider
+ */
+export async function getLiveWalletBalance(address: string): Promise<number> {
+  if (typeof window === 'undefined' || !window.ethereum || !address) return 0;
+  try {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const rawBalance = await provider.getBalance(address);
+    const formatted = parseFloat(ethers.formatEther(rawBalance));
+    return isNaN(formatted) ? 0 : formatted;
+  } catch (err) {
+    console.warn('Direct RPC balance fetch error:', err);
+    return 0;
+  }
+}
+
+/**
  * Connect to MetaMask / injected EVM wallet and switch to Monad Testnet
  */
 export async function connectMetaMask(): Promise<Web3WalletInfo> {
@@ -90,8 +106,7 @@ export async function connectMetaMask(): Promise<Web3WalletInfo> {
   }
 
   // Fetch real native MON balance
-  const rawBalance = await provider.getBalance(userAddress);
-  const formattedBalance = parseFloat(ethers.formatEther(rawBalance));
+  const formattedBalance = await getLiveWalletBalance(userAddress);
 
   return {
     address: `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`,
