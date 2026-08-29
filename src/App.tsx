@@ -244,6 +244,7 @@ export function App() {
             onExplore={handleExplore}
             isConnected={walletState.isConnected}
             connectedBalance={walletState.balance}
+            totalLocked={currentStats.totalLocked}
           />
 
           {/* Portfolio Stats Card (Real Dynamic Stats) */}
