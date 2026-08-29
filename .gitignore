@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Production & Build outputs
+dist/
+build/
+
+# Hardhat & Solidity compilation cache/artifacts
+cache/
+artifacts/
+
+# Environment & Sensitive Keys
+.env
+.env.local
+.env.*.local
+
+# IDE & OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

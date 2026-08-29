@@ -1,0 +1,108 @@
+import { PromiseItem, ActivityItem, WalletState, StatsData } from '../types';
+
+export const INITIAL_WALLET_STATE: WalletState = {
+  isConnected: true,
+  address: '0x7A29...91F2',
+  balance: 42.50,
+  network: 'Monad Testnet',
+  chainId: 10143,
+};
+
+export const MOCK_STATS: StatsData = {
+  totalLocked: 24.50,
+  activePromises: 3,
+  fulfilled: 8,
+  totalPromised: 32.50,
+};
+
+export const INITIAL_PROMISES: PromiseItem[] = [
+  {
+    id: 'p-1',
+    title: '🎓 Graduation Promise',
+    recipient: '0x829F...A91C',
+    sender: '0x7A29...91F2',
+    amount: 10.0,
+    token: 'MON',
+    condition: 'Graduation',
+    status: 'LOCKED',
+    createdAt: '2 hours ago',
+    category: 'education',
+    txHash: '0x829f4b1a7d832e91af2031...',
+    description: 'Reward upon completion of University Degree with honors certification.',
+  },
+  {
+    id: 'p-2',
+    title: '💼 Project Milestone',
+    recipient: '0x19B4...72FA',
+    sender: '0x7A29...91F2',
+    amount: 5.0,
+    token: 'MON',
+    condition: 'Milestone Completed',
+    status: 'VERIFIED',
+    createdAt: '1 day ago',
+    category: 'freelance',
+    txHash: '0x91c0e3a47b19f031aa52...',
+    verifiedAt: '5 minutes ago',
+    description: 'Payment release for completing V1 Frontend Component Integration.',
+  },
+  {
+    id: 'p-3',
+    title: '🎯 Coding Challenge',
+    recipient: '0x51E2...BC82',
+    sender: '0x7A29...91F2',
+    amount: 2.5,
+    token: 'MON',
+    condition: 'Challenge Completed',
+    status: 'LOCKED',
+    createdAt: '3 days ago',
+    category: 'accountability',
+    txHash: '0x51e247b98d331af04b9c...',
+    description: '30-day continuous GitHub contribution streak requirement.',
+  },
+  {
+    id: 'p-4',
+    title: '🏆 Monad Hackathon Bounty',
+    recipient: '0x34C1...D82E',
+    sender: '0x7A29...91F2',
+    amount: 15.0,
+    token: 'MON',
+    condition: 'First Place Submission',
+    status: 'FULFILLED',
+    createdAt: '5 days ago',
+    category: 'competition',
+    txHash: '0x34c112e4b55a0198bc7d...',
+    verifiedAt: '4 days ago',
+    claimedAt: '4 days ago',
+    description: 'Automated bounty payout for Monad Blitz New Delhi winners.',
+  },
+];
+
+export const INITIAL_ACTIVITIES: ActivityItem[] = [
+  {
+    id: 'act-1',
+    type: 'created',
+    title: 'Promise Created (Graduation)',
+    amount: 10.0,
+    timestamp: '2 minutes ago',
+    txHash: '0x82...19AF',
+    promiseId: 'p-1',
+  },
+  {
+    id: 'act-2',
+    type: 'verified',
+    title: 'Condition Verified (Project Milestone)',
+    amount: 5.0,
+    timestamp: '5 minutes ago',
+    txHash: '0x91...F031',
+    promiseId: 'p-2',
+  },
+  {
+    id: 'act-3',
+    type: 'claimed',
+    title: 'Funds Claimed (Hackathon Bounty)',
+    amount: 2.0,
+    timestamp: '12 minutes ago',
+    txHash: '0x44...98BC',
+    promiseId: 'p-4',
+  },
+];
