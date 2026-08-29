@@ -26,14 +26,19 @@
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^7.0.0",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
+    "chai": "^6.2.2",
     "dotenv": "^17.4.2",
     "hardhat": "^3.15.0",
+    "mocha": "^11.8.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }
