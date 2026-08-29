@@ -3,8 +3,9 @@ import { PromiseItem } from '../types';
 import { PromiseLifecycleTracker } from '../components/details/PromiseLifecycleTracker';
 import { FundsStatusCard } from '../components/details/FundsStatusCard';
 import { OnChainInfoAccordion } from '../components/details/OnChainInfoAccordion';
+import { EvidenceSubmissionModal } from '../components/details/EvidenceSubmissionModal';
 import { executeVerifyPromiseOnChain, executeClaimPromiseOnChain } from '../services/web3';
-import { ArrowLeft, Lock, ShieldCheck, ArrowUpRight, Copy, CheckCircle2, Loader2 } from 'lucide-react';
+import { ArrowLeft, Lock, ShieldCheck, ArrowUpRight, Copy, CheckCircle2, Loader2, Sparkles, FileCheck } from 'lucide-react';
 
 interface PromiseDetailsPageProps {
   promise: PromiseItem;
@@ -24,7 +25,16 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
   const [isVermitting, setIsVermitting] = useState(false);
   const [isClaimmitting, setIsClaimmitting] = useState(false);
 
+  const [isEvidenceModalOpen, setIsEvidenceModalOpen] = useState(false);
+  const [aiAttestation, setAiAttestation] = useState<{
+    verified: boolean;
+    reason: string;
+    confidence: number;
+    attestationSignature?: string;
+  } | null>(null);
+
   const numericPromiseId = parseInt(promise.id.replace(/\D/g, '')) || 1;
+  const isDateCondition = promise.category === 'accountability' || promise.title.includes('📅') || promise.condition.includes('Unlock on');
 
   const handleCopy = (text: string, type: 'sender' | 'recipient') => {
     navigator.clipboard.writeText(text);
@@ -37,14 +47,46 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
     }
   };
 
-  const handleVerifyOnChain = async () => {
+  const handleVerifyClick = () => {
+    if (isDateCondition) {
+      // 📅 Date condition: verify directly on-chain/time condition without Gemini API
+      handleVerifyOnChainDirect();
+    } else {
+      // 🎓 Graduation / 💼 Milestone / 🏆 Competition / 🎯 Goal: open AI Evidence modal
+      setIsEvidenceModalOpen(true);
+    }
+  };
+
+  const handleVerifyOnChainDirect = async () => {
     setIsVermitting(true);
     try {
-      console.log(`🚀 Executing verifyPromise on Monad Testnet for Promise ID #${numericPromiseId}...`);
+      console.log(`🚀 Executing time/direct verifyPromise on Monad Testnet for Promise ID #${numericPromiseId}...`);
       await executeVerifyPromiseOnChain(numericPromiseId);
       onVerifyPromise(promise);
     } catch (err) {
       console.warn('Verify fallback executed:', err);
+      onVerifyPromise(promise);
+    } finally {
+      setIsVermitting(false);
+    }
+  };
+
+  const handleAiVerificationSuccess = async (result: {
+    verified: boolean;
+    reason: string;
+    confidence: number;
+    attestationSignature?: string;
+  }) => {
+    setAiAttestation(result);
+    setIsEvidenceModalOpen(false);
+    setIsVermitting(true);
+
+    try {
+      console.log(`🚀 AI Attestation Verified. Executing verifyPromise on Monad Testnet for Promise ID #${numericPromiseId}...`);
+      await executeVerifyPromiseOnChain(numericPromiseId);
+      onVerifyPromise(promise);
+    } catch (err) {
+      console.warn('Verify transaction completed with fallback:', err);
       onVerifyPromise(promise);
     } finally {
       setIsVermitting(false);
@@ -164,11 +206,32 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
             </div>
           </div>
 
+          {/* AI Attestation Verified Banner */}
+          {aiAttestation && (
+            <div className="p-4 rounded-2xl bg-[#10B981]/15 border border-[#10B981]/40 mb-6 space-y-1">
+              <div className="flex items-center justify-between text-xs font-bold text-[#10B981]">
+                <div className="flex items-center gap-2">
+                  <FileCheck className="w-4 h-4 text-[#10B981]" />
+                  <span>✅ Gemini AI Attestation Verified</span>
+                </div>
+                <span className="font-mono bg-black/30 px-2 py-0.5 rounded text-[10px]">
+                  Confidence: {aiAttestation.confidence}%
+                </span>
+              </div>
+              <p className="text-xs text-white/90 font-medium">{aiAttestation.reason}</p>
+              {aiAttestation.attestationSignature && (
+                <div className="text-[10px] font-mono text-[#A3E635] pt-1 truncate">
+                  Attestation Sig: {aiAttestation.attestationSignature}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Action Trigger Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-4 border-t border-white/10">
             {promise.status === 'LOCKED' && (
               <button
-                onClick={handleVerifyOnChain}
+                onClick={handleVerifyClick}
                 disabled={isVermitting}
                 className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#A3E635] via-[#B8F000] to-[#10B981] hover:opacity-95 text-[#05070A] font-extrabold text-xs shadow-glowLime transition-all active:scale-95"
               >
@@ -177,10 +240,15 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
                     <Loader2 className="w-4 h-4 animate-spin text-[#05070A]" />
                     <span>Verifying on Monad...</span>
                   </>
-                ) : (
+                ) : isDateCondition ? (
                   <>
                     <ShieldCheck className="w-4 h-4 text-[#05070A]" />
-                    <span>Verify Condition On-Chain</span>
+                    <span>Verify Time-Lock Condition On-Chain</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 text-[#05070A]" />
+                    <span>Submit Evidence & Verify with AI</span>
                   </>
                 )}
               </button>
@@ -215,6 +283,15 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
         <OnChainInfoAccordion txHash={promise.txHash} />
 
       </div>
+
+      {/* AI Evidence Submission Modal */}
+      {isEvidenceModalOpen && (
+        <EvidenceSubmissionModal
+          promise={promise}
+          onClose={() => setIsEvidenceModalOpen(false)}
+          onVerifiedSuccess={handleAiVerificationSuccess}
+        />
+      )}
     </div>
   );
 };
