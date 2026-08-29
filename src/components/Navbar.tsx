@@ -1,6 +1,6 @@
 import React from 'react';
 import { WalletState } from '../types';
-import { Bell, Sparkles, Wallet, ChevronDown, Activity, Lock, Plus, Home } from 'lucide-react';
+import { Bell, Sparkles, Wallet, ChevronDown, Activity, Lock, Plus, Home, User } from 'lucide-react';
 
 interface NavbarProps {
   wallet: WalletState;
@@ -9,6 +9,8 @@ interface NavbarProps {
   currentView?: string;
   onNavigateHome?: () => void;
   onNavigatePromises?: () => void;
+  onNavigateActivity?: () => void;
+  onNavigateProfile?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -18,6 +20,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   currentView = 'home',
   onNavigateHome,
   onNavigatePromises,
+  onNavigateActivity,
+  onNavigateProfile,
 }) => {
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-3xl bg-[#08070D]/85 border-b border-white/10 px-4 lg:px-8 py-3.5 transition-all">
@@ -51,11 +55,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Center: Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1.5 p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 shadow-innerGlow">
+        {/* Center: Desktop Navigation Links (Home, Promises, Create, Activity, Profile) */}
+        <nav className="hidden md:flex items-center gap-1.5 p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 shadow-innerGlow">
           <button
             onClick={onNavigateHome}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
               currentView === 'home'
                 ? 'bg-gradient-to-r from-[#D9579D] to-[#A982C4] text-white shadow-glowPink'
                 : 'text-[#AAA3AF] hover:text-white hover:bg-white/[0.06]'
@@ -67,7 +71,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={onNavigatePromises}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
               currentView === 'promises' || currentView === 'detail'
                 ? 'bg-[#3A1E3B] text-[#E89AC1] border border-[#D9579D]/40 shadow-glowPink'
                 : 'text-[#AAA3AF] hover:text-white hover:bg-white/[0.06]'
@@ -79,7 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={onOpenCreate}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
               currentView === 'create'
                 ? 'bg-gradient-to-r from-[#D9579D] to-[#A982C4] text-white shadow-glowPink'
                 : 'text-[#AAA3AF] hover:text-white hover:bg-white/[0.06]'
@@ -87,6 +91,30 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Create</span>
+          </button>
+
+          <button
+            onClick={onNavigateActivity}
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              currentView === 'activity'
+                ? 'bg-[#3A1E3B] text-[#E89AC1] border border-[#D9579D]/40 shadow-glowPink'
+                : 'text-[#AAA3AF] hover:text-white hover:bg-white/[0.06]'
+            }`}
+          >
+            <Activity className="w-3.5 h-3.5" />
+            <span>Activity</span>
+          </button>
+
+          <button
+            onClick={onNavigateProfile}
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              currentView === 'profile'
+                ? 'bg-[#3A1E3B] text-[#E89AC1] border border-[#D9579D]/40 shadow-glowPink'
+                : 'text-[#AAA3AF] hover:text-white hover:bg-white/[0.06]'
+            }`}
+          >
+            <User className="w-3.5 h-3.5" />
+            <span>Profile</span>
           </button>
         </nav>
 
@@ -103,26 +131,21 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#D9579D] ring-2 ring-[#08070D]"></span>
           </button>
 
-          {/* Create Button (Quick Action) */}
-          <button
-            onClick={onOpenCreate}
-            className="hidden md:flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-[#D9579D] via-[#E89AC1] to-[#A982C4] hover:opacity-95 text-white font-bold text-xs shadow-glowPink transition-all active:scale-95"
-          >
-            <span>+ Create Promise</span>
-          </button>
-
           {/* Wallet Button */}
           {wallet.isConnected ? (
             <div className="flex items-center gap-2">
               {/* Balance Badge */}
-              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-[#3A1E3B]/70 border border-[#D9579D]/30 text-[#E89AC1] text-xs font-bold shadow-innerGlow">
+              <div 
+                onClick={onNavigateProfile}
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-[#3A1E3B]/70 hover:bg-[#3A1E3B] border border-[#D9579D]/30 text-[#E89AC1] text-xs font-bold shadow-innerGlow cursor-pointer transition-all"
+              >
                 <span className="text-white font-extrabold mon-glow">{wallet.balance.toFixed(2)}</span>
                 <span className="text-[#A982C4] text-[10px]">MON</span>
               </div>
 
               {/* Wallet Address Trigger */}
               <button
-                onClick={onToggleWallet}
+                onClick={onNavigateProfile}
                 className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/[0.06] hover:bg-white/[0.12] border border-[#D9579D]/30 text-white text-xs font-bold transition-all shadow-innerGlow group"
               >
                 <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-[#D9579D] to-[#A982C4] flex items-center justify-center text-[10px] text-white font-bold">

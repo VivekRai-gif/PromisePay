@@ -20,6 +20,8 @@ import { BottomNavigation } from './components/BottomNavigation';
 import { Toast } from './components/Toast';
 import { CreatePromisePage } from './pages/CreatePromisePage';
 import { PromiseDetailsPage } from './pages/PromiseDetailsPage';
+import { ActivityPage } from './pages/ActivityPage';
+import { ProfilePage } from './pages/ProfilePage';
 
 export function App() {
   const [wallet, setWallet] = useState<WalletState>(INITIAL_WALLET_STATE);
@@ -27,8 +29,8 @@ export function App() {
   const [promises, setPromises] = useState<PromiseItem[]>(INITIAL_PROMISES);
   const [activities, setActivities] = useState<ActivityItem[]>(INITIAL_ACTIVITIES);
 
-  // App View Navigation State: 'home' | 'create' | 'detail'
-  const [currentView, setCurrentView] = useState<'home' | 'create' | 'detail'>('home');
+  // App View Navigation State: 'home' | 'create' | 'detail' | 'activity' | 'profile'
+  const [currentView, setCurrentView] = useState<'home' | 'create' | 'detail' | 'activity' | 'profile'>('home');
   const [selectedPromise, setSelectedPromise] = useState<PromiseItem | null>(null);
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -67,15 +69,24 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Navigate to Create Page
+  // Navigation Handlers
   const handleOpenCreatePage = () => {
     setCurrentView('create');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Navigate to Home Page
   const handleNavigateHome = () => {
     setCurrentView('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateActivity = () => {
+    setCurrentView('activity');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateProfile = () => {
+    setCurrentView('profile');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -163,7 +174,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0812] text-slate-100 flex flex-col justify-between pb-24">
+    <div className="min-h-screen bg-[#08070D] text-slate-100 flex flex-col justify-between pb-24">
       {/* Toast Notification */}
       <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
 
@@ -172,9 +183,14 @@ export function App() {
         wallet={wallet}
         onToggleWallet={handleToggleWallet}
         onOpenCreate={handleOpenCreatePage}
+        currentView={currentView}
+        onNavigateHome={handleNavigateHome}
+        onNavigatePromises={handleExplore}
+        onNavigateActivity={handleNavigateActivity}
+        onNavigateProfile={handleNavigateProfile}
       />
 
-      {/* View Switcher: Home vs Create vs Detail Page */}
+      {/* View Switcher: Home vs Create vs Detail vs Activity vs Profile */}
       {currentView === 'create' ? (
         <CreatePromisePage
           onBack={handleNavigateHome}
@@ -187,6 +203,18 @@ export function App() {
           onBack={handleNavigateHome}
           onVerifyPromise={handleVerifyPromise}
           onClaimPromise={handleClaimPromise}
+        />
+      ) : currentView === 'activity' ? (
+        <ActivityPage
+          activities={activities}
+          onBack={handleNavigateHome}
+        />
+      ) : currentView === 'profile' ? (
+        <ProfilePage
+          wallet={wallet}
+          stats={stats}
+          onBack={handleNavigateHome}
+          onToggleWallet={handleToggleWallet}
         />
       ) : (
         <main className="max-w-7xl mx-auto px-4 lg:px-8 w-full pt-4">
@@ -235,11 +263,23 @@ export function App() {
 
       {/* Floating Bottom Navigation */}
       <BottomNavigation
-        activeTab={currentView === 'create' ? 'create' : currentView === 'detail' ? 'promises' : 'home'}
+        activeTab={
+          currentView === 'create'
+            ? 'create'
+            : currentView === 'detail'
+            ? 'promises'
+            : currentView === 'activity'
+            ? 'activity'
+            : currentView === 'profile'
+            ? 'profile'
+            : 'home'
+        }
         setActiveTab={(tab) => {
           if (tab === 'home') handleNavigateHome();
           if (tab === 'create') handleOpenCreatePage();
           if (tab === 'promises') handleExplore();
+          if (tab === 'activity') handleNavigateActivity();
+          if (tab === 'profile') handleNavigateProfile();
         }}
         onOpenCreate={handleOpenCreatePage}
       />
