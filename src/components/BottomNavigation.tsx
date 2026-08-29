@@ -13,16 +13,14 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   onOpenCreate,
 }) => {
   return (
-    <nav className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md">
-      <div className="flex items-center justify-around p-3 rounded-full bg-[#181226]/85 backdrop-blur-2xl border border-white/12 shadow-floatingNav">
+    <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md">
+      <div className="flex items-center justify-around p-2.5 rounded-3xl bg-[#121016]/90 backdrop-blur-3xl border border-white/12 shadow-floatingNav">
         
         {/* Home Tab */}
         <button
           onClick={() => setActiveTab('home')}
-          className={`flex flex-col items-center gap-1 p-2 px-3 rounded-full transition-all ${
-            activeTab === 'home'
-              ? 'text-purple-300 font-bold bg-white/[0.08]'
-              : 'text-slate-400 hover:text-slate-200'
+          className={`flex flex-col items-center gap-1 p-2 rounded-2xl transition-all ${
+            activeTab === 'home' ? 'text-[#D95B9A] font-bold' : 'text-[#8F8991] hover:text-white'
           }`}
         >
           <Home className="w-5 h-5" />
@@ -32,10 +30,8 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         {/* My Promises Tab */}
         <button
           onClick={() => setActiveTab('promises')}
-          className={`flex flex-col items-center gap-1 p-2 px-3 rounded-full transition-all ${
-            activeTab === 'promises'
-              ? 'text-purple-300 font-bold bg-white/[0.08]'
-              : 'text-slate-400 hover:text-slate-200'
+          className={`flex flex-col items-center gap-1 p-2 rounded-2xl transition-all ${
+            activeTab === 'promises' ? 'text-[#D95B9A] font-bold' : 'text-[#8F8991] hover:text-white'
           }`}
         >
           <Lock className="w-5 h-5" />
@@ -45,7 +41,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         {/* Center Floating Create Action Button */}
         <button
           onClick={onOpenCreate}
-          className="relative -top-6 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-purple-600 via-purple-500 to-pink-500 p-3.5 text-white shadow-mauveGlow hover:shadow-pinkGlow hover:scale-105 active:scale-95 transition-all duration-300 ring-4 ring-[#110D1B]"
+          className="relative -top-5 flex items-center justify-center w-13 h-13 rounded-full bg-gradient-to-tr from-[#D95B9A] via-[#C66B9B] to-[#A984C4] p-3.5 text-white shadow-glowPink hover:scale-105 active:scale-95 transition-all duration-300 ring-4 ring-[#0B0A0D]"
         >
           <Plus className="w-6 h-6 stroke-[2.5]" />
         </button>
@@ -53,10 +49,8 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         {/* Activity Tab */}
         <button
           onClick={() => setActiveTab('activity')}
-          className={`flex flex-col items-center gap-1 p-2 px-3 rounded-full transition-all ${
-            activeTab === 'activity'
-              ? 'text-purple-300 font-bold bg-white/[0.08]'
-              : 'text-slate-400 hover:text-slate-200'
+          className={`flex flex-col items-center gap-1 p-2 rounded-2xl transition-all ${
+            activeTab === 'activity' ? 'text-[#D95B9A] font-bold' : 'text-[#8F8991] hover:text-white'
           }`}
         >
           <Activity className="w-5 h-5" />
@@ -66,10 +60,8 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         {/* Profile Tab */}
         <button
           onClick={() => setActiveTab('profile')}
-          className={`flex flex-col items-center gap-1 p-2 px-3 rounded-full transition-all ${
-            activeTab === 'profile'
-              ? 'text-purple-300 font-bold bg-white/[0.08]'
-              : 'text-slate-400 hover:text-slate-200'
+          className={`flex flex-col items-center gap-1 p-2 rounded-2xl transition-all ${
+            activeTab === 'profile' ? 'text-[#D95B9A] font-bold' : 'text-[#8F8991] hover:text-white'
           }`}
         >
           <User className="w-5 h-5" />

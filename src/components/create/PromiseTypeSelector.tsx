@@ -28,7 +28,7 @@ export const PromiseTypeSelector: React.FC<PromiseTypeSelectorProps> = ({
       icon: GraduationCap,
       description: 'Release when degree or cert is verified',
       isAvailable: true,
-      color: 'from-purple-500 to-indigo-500',
+      color: 'from-[#D95B9A] to-[#A984C4]',
     },
     {
       key: 'date',
@@ -36,7 +36,7 @@ export const PromiseTypeSelector: React.FC<PromiseTypeSelectorProps> = ({
       icon: Calendar,
       description: 'Unlock automatically on a future date',
       isAvailable: true,
-      color: 'from-pink-500 to-rose-500',
+      color: 'from-[#C66B9B] to-[#765878]',
     },
     {
       key: 'milestone',
@@ -44,7 +44,7 @@ export const PromiseTypeSelector: React.FC<PromiseTypeSelectorProps> = ({
       icon: Briefcase,
       description: 'Project deliverable approval',
       isAvailable: false,
-      color: 'from-amber-500 to-orange-500',
+      color: 'from-[#A984C4] to-[#4B304F]',
     },
     {
       key: 'competition',
@@ -52,7 +52,7 @@ export const PromiseTypeSelector: React.FC<PromiseTypeSelectorProps> = ({
       icon: Trophy,
       description: 'Winner prize pool distribution',
       isAvailable: false,
-      color: 'from-yellow-500 to-amber-500',
+      color: 'from-[#E38BB5] to-[#7C647C]',
     },
     {
       key: 'custom',
@@ -60,13 +60,13 @@ export const PromiseTypeSelector: React.FC<PromiseTypeSelectorProps> = ({
       icon: Target,
       description: 'User-defined custom condition',
       isAvailable: false,
-      color: 'from-cyan-500 to-blue-500',
+      color: 'from-[#765878] to-[#211722]',
     },
   ];
 
   return (
     <div className="space-y-3">
-      <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+      <label className="block text-xs font-semibold text-[#8F8991] uppercase tracking-wider">
         Promise Type
       </label>
 
@@ -81,36 +81,36 @@ export const PromiseTypeSelector: React.FC<PromiseTypeSelectorProps> = ({
               type="button"
               disabled={!opt.isAvailable}
               onClick={() => opt.isAvailable && onSelectType(opt.key)}
-              className={`relative flex flex-col p-4 rounded-2xl transition-all duration-300 text-left ${
+              className={`relative flex flex-col p-3.5 rounded-2xl transition-all duration-300 text-left ${
                 !opt.isAvailable
                   ? 'opacity-40 cursor-not-allowed bg-white/[0.02] border border-white/5'
                   : isSelected
-                  ? 'bg-gradient-to-br from-purple-950/80 via-purple-900/50 to-pink-950/70 border-2 border-purple-400 shadow-mauveGlow'
-                  : 'bg-white/[0.04] hover:bg-white/[0.08] border border-white/10'
+                  ? 'bg-gradient-to-br from-[#342031] via-[#211722] to-[#151118] border-2 border-[#D95B9A] shadow-glowPink'
+                  : 'bg-white/[0.03] hover:bg-white/[0.06] border border-white/10'
               }`}
             >
               {/* Selected Checkmark Badge */}
               {isSelected && (
-                <div className="absolute top-3 right-3 w-4 h-4 rounded-full bg-purple-400 text-[#110D1B] flex items-center justify-center font-bold">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+                <div className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-[#D95B9A] text-white flex items-center justify-center">
+                  <CheckCircle2 className="w-3 h-3" />
                 </div>
               )}
 
               {/* Coming Soon Tag */}
               {!opt.isAvailable && (
-                <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-[9px] font-semibold bg-white/10 text-slate-400">
+                <span className="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[9px] font-semibold bg-white/10 text-[#8F8991]">
                   Soon
                 </span>
               )}
 
-              <div className={`w-9 h-9 rounded-2xl bg-gradient-to-br ${opt.color} p-[1px] mb-3 shadow-md`}>
-                <div className="w-full h-full bg-[#181226] rounded-[14px] flex items-center justify-center">
-                  <IconComp className="w-4.5 h-4.5 text-white" />
+              <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${opt.color} p-[1px] mb-2.5`}>
+                <div className="w-full h-full bg-[#121016] rounded-[11px] flex items-center justify-center">
+                  <IconComp className="w-4 h-4 text-white" />
                 </div>
               </div>
 
               <span className="text-xs font-bold text-white mb-0.5">{opt.label}</span>
-              <span className="text-[10px] text-slate-300 leading-tight">{opt.description}</span>
+              <span className="text-[10px] text-[#C8C1C9] leading-tight">{opt.description}</span>
             </button>
           );
         })}
