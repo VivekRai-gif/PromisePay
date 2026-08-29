@@ -4,69 +4,74 @@
 
 @layer base {
   body {
-    background-color: #0A0812;
+    background-color: #110D1B;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.12) 0px, transparent 50%),
-      radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.1) 0px, transparent 50%);
+      radial-gradient(at 20% 0%, rgba(168, 85, 247, 0.22) 0px, transparent 55%),
+      radial-gradient(at 80% 10%, rgba(244, 114, 182, 0.18) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, rgba(129, 140, 248, 0.1) 0px, transparent 65%),
+      radial-gradient(at 20% 100%, rgba(157, 118, 193, 0.15) 0px, transparent 50%);
     background-attachment: fixed;
+    color: #F8FAFC;
   }
 }
 
-/* Glassmorphism custom classes */
+/* Glassmorphism custom classes inspired by reference */
 .glass-panel {
-  background: rgba(19, 17, 28, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(30, 23, 45, 0.6) 0%, rgba(18, 14, 28, 0.75) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
 }
 
 .glass-panel-interactive {
-  background: rgba(19, 17, 28, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, rgba(32, 24, 48, 0.6) 0%, rgba(19, 15, 30, 0.75) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.45);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-panel-interactive:hover {
-  background: rgba(28, 25, 41, 0.8);
-  border-color: rgba(139, 92, 246, 0.35);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -10px rgba(139, 92, 246, 0.2);
+  background: linear-gradient(135deg, rgba(42, 32, 62, 0.75) 0%, rgba(26, 20, 42, 0.85) 100%);
+  border-color: rgba(192, 132, 252, 0.45);
+  transform: translateY(-3px);
+  box-shadow: 0 24px 48px -12px rgba(168, 85, 247, 0.25);
 }
 
 .glass-input {
-  background: rgba(10, 8, 18, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 11, 24, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: white;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .glass-input:focus {
   outline: none;
-  border-color: #8B5CF6;
-  box-shadow: 0 0 15px -3px rgba(139, 92, 246, 0.4);
+  border-color: #C084FC;
+  box-shadow: 0 0 20px -3px rgba(192, 132, 252, 0.45);
+  background: rgba(22, 16, 35, 0.85);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 40%, #A855F7 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #F1F5F9 35%, #C084FC 75%, #F472B6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-purple {
-  background: linear-gradient(135deg, #C084FC 0%, #EC4899 100%);
+  background: linear-gradient(135deg, #E879F9 0%, #F472B6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .badge-glow-purple {
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
 }
 
 .badge-glow-emerald {
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.4);
 }
 
 /* Custom Scrollbar */
@@ -75,12 +80,22 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(10, 8, 18, 0.8);
+  background: rgba(15, 11, 24, 0.85);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.3);
+  background: rgba(192, 132, 252, 0.35);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.6);
+  background: rgba(192, 132, 252, 0.7);
+}
+
+/* Modal and Page animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out forwards;
 }

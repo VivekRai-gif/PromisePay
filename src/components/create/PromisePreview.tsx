@@ -1,6 +1,6 @@
 import React from 'react';
 import { PromiseTypeKey } from './PromiseTypeSelector';
-import { Sparkles, Lock, ArrowRight, ShieldCheck, User } from 'lucide-react';
+import { Sparkles, Lock, ShieldCheck, User } from 'lucide-react';
 
 interface PromisePreviewProps {
   recipient: string;
@@ -34,9 +34,9 @@ export const PromisePreview: React.FC<PromisePreviewProps> = ({
   };
 
   return (
-    <div className="relative rounded-3xl p-6 glass-panel border border-purple-500/30 shadow-card overflow-hidden sticky top-24">
+    <div className="relative rounded-3xl p-6 sm:p-7 glass-panel border border-purple-400/35 shadow-frostedCard overflow-hidden sticky top-24">
       {/* Background glow orb */}
-      <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-purple-600/20 via-pink-600/10 to-transparent rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-56 h-56 bg-gradient-to-bl from-purple-500/20 via-pink-500/15 to-transparent rounded-full blur-3xl pointer-events-none" />
 
       {/* Header */}
       <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
@@ -44,7 +44,7 @@ export const PromisePreview: React.FC<PromisePreviewProps> = ({
           <Sparkles className="w-4 h-4 text-pink-400" />
           <span>Promise Preview</span>
         </div>
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-300 border border-amber-500/30">
+        <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-200 border border-amber-400/30">
           🔒 Pending Lock
         </span>
       </div>
@@ -60,12 +60,12 @@ export const PromisePreview: React.FC<PromisePreviewProps> = ({
             <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-purple-200">
               {displayAmount}
             </span>
-            <span className="text-base font-bold text-purple-400">MON</span>
+            <span className="text-base font-bold text-purple-300">MON</span>
           </div>
         </div>
 
         {/* Recipient */}
-        <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+        <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/8">
           <span className="text-[10px] uppercase font-semibold text-slate-400 tracking-wider block mb-1">
             Recipient
           </span>
@@ -76,7 +76,7 @@ export const PromisePreview: React.FC<PromisePreviewProps> = ({
         </div>
 
         {/* Condition */}
-        <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+        <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/8">
           <span className="text-[10px] uppercase font-semibold text-slate-400 tracking-wider block mb-1">
             Condition
           </span>
@@ -87,8 +87,8 @@ export const PromisePreview: React.FC<PromisePreviewProps> = ({
         </div>
 
         {/* Status indicator */}
-        <div className="p-3 rounded-2xl bg-amber-950/20 border border-amber-500/20 text-center">
-          <span className="text-xs font-semibold text-amber-300 flex items-center justify-center gap-1.5">
+        <div className="p-3.5 rounded-2xl bg-amber-950/30 border border-amber-400/25 text-center">
+          <span className="text-xs font-semibold text-amber-200 flex items-center justify-center gap-1.5">
             <Lock className="w-3.5 h-3.5" />
             <span>🔒 Funds will be locked in smart contract</span>
           </span>

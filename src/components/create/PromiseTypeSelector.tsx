@@ -81,36 +81,36 @@ export const PromiseTypeSelector: React.FC<PromiseTypeSelectorProps> = ({
               type="button"
               disabled={!opt.isAvailable}
               onClick={() => opt.isAvailable && onSelectType(opt.key)}
-              className={`relative flex flex-col p-3.5 rounded-2xl transition-all duration-300 text-left ${
+              className={`relative flex flex-col p-4 rounded-2xl transition-all duration-300 text-left ${
                 !opt.isAvailable
-                  ? 'opacity-40 cursor-not-allowed bg-white/[0.01] border border-white/5'
+                  ? 'opacity-40 cursor-not-allowed bg-white/[0.02] border border-white/5'
                   : isSelected
-                  ? 'bg-gradient-to-br from-purple-950/70 via-purple-900/40 to-pink-950/60 border-2 border-purple-500 shadow-glow'
-                  : 'bg-white/[0.03] hover:bg-white/[0.06] border border-white/10'
+                  ? 'bg-gradient-to-br from-purple-950/80 via-purple-900/50 to-pink-950/70 border-2 border-purple-400 shadow-mauveGlow'
+                  : 'bg-white/[0.04] hover:bg-white/[0.08] border border-white/10'
               }`}
             >
               {/* Selected Checkmark Badge */}
               {isSelected && (
-                <div className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-purple-500 text-white flex items-center justify-center">
-                  <CheckCircle2 className="w-3 h-3" />
+                <div className="absolute top-3 right-3 w-4 h-4 rounded-full bg-purple-400 text-[#110D1B] flex items-center justify-center font-bold">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
                 </div>
               )}
 
               {/* Coming Soon Tag */}
               {!opt.isAvailable && (
-                <span className="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[9px] font-semibold bg-white/10 text-slate-400">
+                <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-[9px] font-semibold bg-white/10 text-slate-400">
                   Soon
                 </span>
               )}
 
-              <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${opt.color} p-[1px] mb-2.5`}>
-                <div className="w-full h-full bg-[#0F0D1B] rounded-[11px] flex items-center justify-center">
-                  <IconComp className="w-4 h-4 text-white" />
+              <div className={`w-9 h-9 rounded-2xl bg-gradient-to-br ${opt.color} p-[1px] mb-3 shadow-md`}>
+                <div className="w-full h-full bg-[#181226] rounded-[14px] flex items-center justify-center">
+                  <IconComp className="w-4.5 h-4.5 text-white" />
                 </div>
               </div>
 
               <span className="text-xs font-bold text-white mb-0.5">{opt.label}</span>
-              <span className="text-[10px] text-slate-400 leading-tight">{opt.description}</span>
+              <span className="text-[10px] text-slate-300 leading-tight">{opt.description}</span>
             </button>
           );
         })}
