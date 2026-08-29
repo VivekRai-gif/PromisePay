@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { MONAD_TESTNET_CHAIN_ID, MONAD_TESTNET_HEX_ID, MONAD_RPC_URL, MONAD_EXPLORER_URL } from '../lib/monad';
 
 // Public Contract configuration on Monad Testnet from Environment Variables
-export const CONTRACT_ADDRESS = import.meta.env.VITE_PROMISE_PAY_CONTRACT_ADDRESS || '0x829F4B1A7D832E91AF203102948219048291A91C';
+export const CONTRACT_ADDRESS = (import.meta as any).env?.VITE_PROMISE_PAY_CONTRACT_ADDRESS || '0x829F4B1A7D832E91AF203102948219048291A91C';
 export const MONAD_EXPLORER = MONAD_EXPLORER_URL;
 
 // Minimal ABI for PromisePay smart contract

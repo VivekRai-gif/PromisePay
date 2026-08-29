@@ -2,7 +2,7 @@ import { defineChain } from 'viem';
 
 export const MONAD_TESTNET_CHAIN_ID = 10143;
 export const MONAD_TESTNET_HEX_ID = '0x279f';
-export const MONAD_RPC_URL = import.meta.env.VITE_MONAD_TESTNET_RPC || 'https://testnet-rpc.monad.xyz';
+export const MONAD_RPC_URL = (import.meta as any).env?.VITE_MONAD_TESTNET_RPC || 'https://testnet-rpc.monad.xyz';
 export const MONAD_EXPLORER_URL = 'https://testnet.monadexplorer.com';
 
 /**

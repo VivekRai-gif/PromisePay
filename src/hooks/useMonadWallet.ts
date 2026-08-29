@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAccount, useBalance, useConnect, useDisconnect, useChainId, useSwitchChain } from 'wagmi';
+import { formatEther } from 'viem';
 import { monadTestnet, MONAD_TESTNET_CHAIN_ID } from '../lib/monad';
 import { connectMetaMask, switchToMonadNetwork, getLiveWalletBalance, Web3WalletInfo } from '../services/web3';
 
@@ -75,7 +76,15 @@ export function useMonadWallet(): UseMonadWalletReturn {
         const formattedAddr = `${address.slice(0, 6)}...${address.slice(-4)}`;
         
         // Try Wagmi balance format first
-        let currentBal = balanceData?.formatted ? parseFloat(balanceData.formatted) : 0;
+        let currentBal = 0;
+        if (balanceData) {
+          try {
+            const formattedString = (balanceData as any).formatted || (balanceData.value ? formatEther(balanceData.value) : '0');
+            currentBal = parseFloat(formattedString);
+          } catch (e) {
+            currentBal = 0;
+          }
+        }
         if (isNaN(currentBal)) currentBal = 0;
 
         // Fetch live balance directly from connected browser provider

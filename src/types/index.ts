@@ -35,9 +35,11 @@ export interface ActivityItem {
 export interface WalletState {
   isConnected: boolean;
   address: string;
+  fullAddress?: string;
   balance: number;
   network: string;
   chainId: number;
+  isCorrectNetwork?: boolean;
 }
 
 export interface StatsData {
