@@ -24,13 +24,20 @@ export const PromisePreview: React.FC<PromisePreviewProps> = ({
       : recipient || '0x82...A91C';
 
   const getConditionLabel = () => {
-    if (promiseType === 'date') {
-      return `Unlock on ${unlockDate || '29 August 2026'}`;
+    switch (promiseType) {
+      case 'date':
+        return `📅 Unlock on ${unlockDate || '2026-08-29'}`;
+      case 'graduation':
+        return customConditionText ? `🎓 Graduation (${customConditionText})` : '🎓 Graduation Verification';
+      case 'milestone':
+        return customConditionText ? `💼 Milestone (${customConditionText})` : '💼 Project Milestone';
+      case 'competition':
+        return customConditionText ? `🏆 Competition (${customConditionText})` : '🏆 Competition Prize';
+      case 'custom':
+        return customConditionText ? `🎯 Goal (${customConditionText})` : '🎯 Custom Goal Commitment';
+      default:
+        return 'Condition Fulfillment';
     }
-    if (promiseType === 'graduation') {
-      return customConditionText ? `Graduation (${customConditionText})` : 'Graduation Verification';
-    }
-    return 'Condition Fulfillment';
   };
 
   return (

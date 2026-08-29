@@ -31,26 +31,48 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
   const mapCategory = (type: PromiseTypeKey): CategoryType => {
     switch (type) {
       case 'graduation': return 'education';
-      case 'date': return 'accountability';
       case 'milestone': return 'freelance';
       case 'competition': return 'competition';
+      case 'date': return 'accountability';
+      case 'custom': return 'other';
       default: return 'other';
     }
   };
 
-  const handleConfirmSuccess = (txHash: string) => {
-    const conditionTitle =
-      promiseType === 'date'
-        ? `Unlock on ${unlockDate || '2026-08-29'}`
-        : customConditionText
-        ? `Graduation (${customConditionText})`
-        : 'Graduation';
+  const getTemplateTitle = (type: PromiseTypeKey): string => {
+    switch (type) {
+      case 'graduation': return '🎓 Graduation Promise';
+      case 'milestone': return '💼 Project Milestone Promise';
+      case 'competition': return '🏆 Competition Prize Promise';
+      case 'date': return '📅 Time-Lock Date Promise';
+      case 'custom': return '🎯 Custom Goal Promise';
+      default: return '🔒 Monad Promise';
+    }
+  };
 
-    const categoryEmoji = promiseType === 'graduation' ? '🎓' : '📅';
+  const handleConfirmSuccess = (txHash: string) => {
+    let conditionTitle = '';
+    switch (promiseType) {
+      case 'date':
+        conditionTitle = `Unlock on ${unlockDate || '2026-08-29'}`;
+        break;
+      case 'graduation':
+        conditionTitle = customConditionText ? `Graduation (${customConditionText})` : 'Graduation';
+        break;
+      case 'milestone':
+        conditionTitle = customConditionText ? `Milestone (${customConditionText})` : 'Project Deliverable';
+        break;
+      case 'competition':
+        conditionTitle = customConditionText ? `Competition (${customConditionText})` : 'Prize Pool Winner';
+        break;
+      case 'custom':
+        conditionTitle = customConditionText ? `Goal (${customConditionText})` : 'Custom Goal Commitment';
+        break;
+    }
 
     const newPromise: PromiseItem = {
       id: `p-${Date.now()}`,
-      title: `${categoryEmoji} ${promiseType === 'graduation' ? 'Graduation' : 'Time-Lock'} Promise`,
+      title: getTemplateTitle(promiseType),
       recipient: recipient.length > 12 ? `${recipient.slice(0, 6)}...${recipient.slice(-4)}` : recipient,
       sender: '0x7A29...91F2',
       amount: parseFloat(amount) || 1.0,
@@ -108,16 +130,16 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
             {/* Field 2: Amount Input */}
             <AmountInput value={amount} onChange={setAmount} userBalance={userBalance} />
 
-            {/* Field 3: Promise Type Selector */}
+            {/* Field 3: Promise Type Selector (5 Templates) */}
             <PromiseTypeSelector selectedType={promiseType} onSelectType={setPromiseType} />
 
             {/* Field 4: Condition Details */}
             <ConditionSelector
               promiseType={promiseType}
               unlockDate={unlockDate}
-              setUnlockDate={setUnlockDate}
+              onUnlockDateChange={setUnlockDate}
               customConditionText={customConditionText}
-              setCustomConditionText={setCustomConditionText}
+              onCustomConditionChange={setCustomConditionText}
             />
 
             {/* Lock Money CTA Trigger */}
