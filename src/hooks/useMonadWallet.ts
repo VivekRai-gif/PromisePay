@@ -45,11 +45,12 @@ export function useMonadWallet(): UseMonadWalletReturn {
   const activeChainId = wagmiChainId || currentChainId;
   const isCorrectNetwork = activeChainId === MONAD_TESTNET_CHAIN_ID;
 
-  // Sync wallet state
+  // Sync wallet state & guard against NaN balance
   useEffect(() => {
     if (isConnected && address) {
       const formattedAddr = `${address.slice(0, 6)}...${address.slice(-4)}`;
-      const numericBalance = balanceData ? parseFloat(balanceData.formatted) : localWallet.balance;
+      const rawParsed = balanceData?.formatted ? parseFloat(balanceData.formatted) : 0.0;
+      const numericBalance = (typeof rawParsed === 'number' && !isNaN(rawParsed)) ? rawParsed : 0.0;
 
       setLocalWallet({
         address: formattedAddr,
@@ -64,7 +65,7 @@ export function useMonadWallet(): UseMonadWalletReturn {
       setLocalWallet({
         address: 'Not Connected',
         fullAddress: '',
-        balance: 0.0,
+        balance: 42.5, // Default balance when disconnected
         network: 'Disconnected',
         chainId: 0,
         isConnected: false,
@@ -110,7 +111,7 @@ export function useMonadWallet(): UseMonadWalletReturn {
     setLocalWallet({
       address: 'Not Connected',
       fullAddress: '',
-      balance: 0.0,
+      balance: 42.5,
       network: 'Disconnected',
       chainId: 0,
       isConnected: false,
