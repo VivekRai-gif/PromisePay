@@ -96,9 +96,9 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
       <div className="mb-8">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#9AA4B2] hover:text-white border border-white/10 text-xs font-semibold mb-4 transition-all group"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#C4B5FD] hover:text-white border border-[#8335EC]/30 text-xs font-semibold mb-4 transition-all group"
         >
-          <ArrowLeft className="w-4 h-4 text-[#A3E635] group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="w-4 h-4 text-[#A055FF] group-hover:-translate-x-1 transition-transform" />
           <span>Back to Home</span>
         </button>
 
@@ -107,11 +107,11 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               Create a Promise
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#A3E635]/10 text-[#A3E635] border border-[#A3E635]/30 font-mono">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#8335EC]/20 text-[#A055FF] border border-[#8335EC]/40 font-mono">
               Monad Escrow
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-[#9AA4B2] font-medium">
+          <p className="text-xs sm:text-sm text-[#C4B5FD] font-medium">
             Lock money today. Release it when your promise is fulfilled.
           </p>
         </div>
@@ -122,7 +122,7 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
         
         {/* Left Column: Form Fields */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="rounded-3xl p-6 sm:p-7 glass-eye-primary border border-white/10 shadow-card space-y-6">
+          <div className="rounded-3xl p-6 sm:p-7 glass-eye-primary border border-[#8335EC]/30 shadow-card space-y-6">
             
             {/* Field 1: Recipient Input */}
             <RecipientInput value={recipient} onChange={setRecipient} />
@@ -145,9 +145,9 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
             {/* Lock Money CTA Trigger */}
             <button
               onClick={() => setIsConfirmModalOpen(true)}
-              className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-r from-[#A3E635] via-[#B8F000] to-[#10B981] hover:opacity-95 text-[#05070A] font-extrabold text-sm shadow-glowLime transition-all duration-300 active:scale-95 group"
+              className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-r from-[#8335EC] via-[#A055FF] to-[#C084FC] hover:opacity-95 text-white font-extrabold text-sm shadow-glowPurple transition-all duration-300 active:scale-95 group"
             >
-              <Lock className="w-4 h-4 text-[#05070A]" />
+              <Lock className="w-4 h-4 text-white" />
               <span>Lock Money & Create Promise ({displayAmount} MON)</span>
             </button>
 

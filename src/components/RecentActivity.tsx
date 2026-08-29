@@ -11,19 +11,19 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) =>
     switch (type) {
       case 'created':
         return (
-          <div className="w-8 h-8 rounded-xl bg-[#A3E635]/10 text-[#A3E635] border border-[#A3E635]/30 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-xl bg-[#8335EC]/20 text-[#A055FF] border border-[#8335EC]/40 flex items-center justify-center">
             <PlusCircle className="w-4 h-4" />
           </div>
         );
       case 'verified':
         return (
-          <div className="w-8 h-8 rounded-xl bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-xl bg-[#A055FF]/20 text-[#C084FC] border border-[#A055FF]/40 flex items-center justify-center">
             <ShieldCheck className="w-4 h-4" />
           </div>
         );
       case 'claimed':
         return (
-          <div className="w-8 h-8 rounded-xl bg-[#8B5CF6]/15 text-[#8B5CF6] border border-[#8B5CF6]/30 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-xl bg-[#8335EC]/20 text-[#8B5CF6] border border-[#8335EC]/40 flex items-center justify-center">
             <ArrowUpRight className="w-4 h-4" />
           </div>
         );
@@ -35,8 +35,8 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) =>
     switch (activeStatus) {
       case 'SUCCESS':
         return (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 font-mono">
-            <CheckCircle2 className="w-2.5 h-2.5 text-[#10B981]" />
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-[#A055FF]/20 text-[#C084FC] border border-[#A055FF]/40 font-mono">
+            <CheckCircle2 className="w-2.5 h-2.5 text-[#C084FC]" />
             <span>Success</span>
           </span>
         );
@@ -60,23 +60,23 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) =>
   };
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 glass-eye-primary border border-white/10 shadow-card mb-12">
+    <div className="rounded-3xl p-6 sm:p-8 glass-eye-primary border border-[#8335EC]/30 shadow-card mb-12">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-[#A3E635] uppercase tracking-wider mb-1 font-mono">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#A055FF] uppercase tracking-wider mb-1 font-mono">
             <Activity className="w-3.5 h-3.5" />
             <span>On-Chain Timeline</span>
           </div>
           <h2 className="text-xl font-bold text-white tracking-tight">Recent Activity</h2>
         </div>
-        <span className="text-xs text-[#64748B] font-mono">Monad Block #1489201</span>
+        <span className="text-xs text-[#8B5CF6] font-mono">Monad Block #1489201</span>
       </div>
 
       <div className="space-y-4">
         {activities.map((act) => (
           <div
             key={act.id}
-            className="flex items-center justify-between p-3.5 rounded-2xl bg-[#0A0E17]/80 hover:bg-white/[0.05] border border-white/10 transition-all shadow-innerLight"
+            className="flex items-center justify-between p-3.5 rounded-2xl bg-[#07040D]/80 hover:bg-white/[0.05] border border-[#8335EC]/25 transition-all shadow-innerLight"
           >
             <div className="flex items-center gap-3.5">
               {getActivityIcon(act.type)}
@@ -85,11 +85,11 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) =>
                   <h4 className="text-xs sm:text-sm font-bold text-white tracking-tight">{act.title}</h4>
                   {renderStatusBadge(act.status)}
                 </div>
-                <div className="flex items-center gap-2 text-[11px] text-[#94A3B8]">
-                  <span className="font-mono text-[#A3E635] font-extrabold">{act.amount} MON</span>
-                  <span className="text-[#64748B]">•</span>
-                  <span className="flex items-center gap-1 text-[#94A3B8]">
-                    <Clock className="w-3 h-3 text-[#94A3B8]" />
+                <div className="flex items-center gap-2 text-[11px] text-[#C4B5FD]">
+                  <span className="font-mono text-[#A055FF] font-extrabold">{act.amount} MON</span>
+                  <span className="text-[#8B5CF6]">•</span>
+                  <span className="flex items-center gap-1 text-[#C4B5FD]">
+                    <Clock className="w-3 h-3 text-[#C4B5FD]" />
                     {act.timestamp}
                   </span>
                 </div>
@@ -101,10 +101,10 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) =>
               href={`https://testnet.monadexplorer.com/tx/${act.txHash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#94A3B8] hover:text-white text-xs font-mono border border-white/10 transition-all group"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#C4B5FD] hover:text-white text-xs font-mono border border-[#8335EC]/30 transition-all group"
             >
               <span>{act.txHash}</span>
-              <ExternalLink className="w-3 h-3 text-[#64748B] group-hover:text-[#A3E635] transition-colors" />
+              <ExternalLink className="w-3 h-3 text-[#8B5CF6] group-hover:text-[#A055FF] transition-colors" />
             </a>
           </div>
         ))}

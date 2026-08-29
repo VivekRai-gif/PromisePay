@@ -49,10 +49,8 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
 
   const handleVerifyClick = () => {
     if (isDateCondition) {
-      // 📅 Date condition: verify directly on-chain/time condition without Gemini API
       handleVerifyOnChainDirect();
     } else {
-      // 🎓 Graduation / 💼 Milestone / 🏆 Competition / 🎯 Goal: open AI Evidence modal
       setIsEvidenceModalOpen(true);
     }
   };
@@ -113,9 +111,9 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
       <div className="mb-6">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#94A3B8] hover:text-white border border-white/10 text-xs font-semibold mb-4 transition-all group"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#C4B5FD] hover:text-white border border-[#8335EC]/30 text-xs font-semibold mb-4 transition-all group"
         >
-          <ArrowLeft className="w-4 h-4 text-[#A3E635] group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="w-4 h-4 text-[#A055FF] group-hover:-translate-x-1 transition-transform" />
           <span>Back to Home</span>
         </button>
 
@@ -124,24 +122,24 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               Promise Details
             </h1>
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#A3E635]/10 text-[#A3E635] border border-[#A3E635]/30 font-mono">
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#8335EC]/20 text-[#A055FF] border border-[#8335EC]/40 font-mono">
               Promise #{promise.id}
             </span>
           </div>
 
           {/* Status badge */}
           {promise.status === 'LOCKED' ? (
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#A3E635]/15 text-[#A3E635] border border-[#A3E635]/40 badge-glow-lime font-mono">
-              <Lock className="w-4 h-4 text-[#A3E635]" />
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#8335EC]/20 text-[#A055FF] border border-[#8335EC]/40 badge-glow-lime font-mono">
+              <Lock className="w-4 h-4 text-[#A055FF]" />
               <span>🔒 LOCKED</span>
             </span>
           ) : promise.status === 'VERIFIED' ? (
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/40 badge-glow-emerald font-mono">
-              <ShieldCheck className="w-4 h-4 text-[#10B981]" />
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#A055FF]/20 text-[#C084FC] border border-[#A055FF]/40 badge-glow-emerald font-mono">
+              <ShieldCheck className="w-4 h-4 text-[#C084FC]" />
               <span>✓ VERIFIED / CLAIMABLE</span>
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#8B5CF6]/15 text-[#8B5CF6] border border-[#8B5CF6]/30 font-mono">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#8335EC]/20 text-[#8B5CF6] border border-[#8335EC]/30 font-mono">
               <CheckCircle2 className="w-4 h-4 text-[#8B5CF6]" />
               <span>🔓 FULFILLED & SETTLED</span>
             </span>
@@ -156,71 +154,71 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
         <FundsStatusCard amount={promise.amount} status={promise.status} />
 
         {/* Primary Main Glass Card */}
-        <div className="rounded-3xl p-6 sm:p-8 glass-eye-primary border border-white/12 shadow-card">
+        <div className="rounded-3xl p-6 sm:p-8 glass-eye-primary border border-[#8335EC]/35 shadow-card">
           <h2 className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-2">
             <span>{promise.title}</span>
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             {/* Sender */}
-            <div className="p-4 rounded-2xl bg-[#0A0E17]/70 border border-white/10 flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-[#07040D]/80 border border-[#8335EC]/30 flex items-center justify-between">
               <div>
-                <span className="text-[10px] uppercase font-semibold text-[#64748B] tracking-wider block mb-0.5">
+                <span className="text-[10px] uppercase font-semibold text-[#8B5CF6] tracking-wider block mb-0.5 font-mono">
                   Sender Wallet
                 </span>
                 <span className="text-xs font-mono text-white font-bold">{promise.sender}</span>
               </div>
               <button
                 onClick={() => handleCopy(promise.sender, 'sender')}
-                className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#94A3B8] hover:text-white transition-colors"
+                className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#C4B5FD] hover:text-white transition-colors"
               >
-                {copiedSender ? <CheckCircle2 className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
+                {copiedSender ? <CheckCircle2 className="w-4 h-4 text-[#C084FC]" /> : <Copy className="w-4 h-4" />}
               </button>
             </div>
 
             {/* Recipient */}
-            <div className="p-4 rounded-2xl bg-[#0A0E17]/70 border border-white/10 flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-[#07040D]/80 border border-[#8335EC]/30 flex items-center justify-between">
               <div>
-                <span className="text-[10px] uppercase font-semibold text-[#64748B] tracking-wider block mb-0.5">
+                <span className="text-[10px] uppercase font-semibold text-[#8B5CF6] tracking-wider block mb-0.5 font-mono">
                   Recipient Wallet
                 </span>
                 <span className="text-xs font-mono text-white font-bold">{promise.recipient}</span>
               </div>
               <button
                 onClick={() => handleCopy(promise.recipient, 'recipient')}
-                className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#94A3B8] hover:text-white transition-colors"
+                className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#C4B5FD] hover:text-white transition-colors"
               >
-                {copiedRecipient ? <CheckCircle2 className="w-4 h-4 text-[#10B981]" /> : <Copy className="w-4 h-4" />}
+                {copiedRecipient ? <CheckCircle2 className="w-4 h-4 text-[#C084FC]" /> : <Copy className="w-4 h-4" />}
               </button>
             </div>
           </div>
 
           {/* Condition Details Box */}
-          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 mb-6">
-            <span className="text-[10px] uppercase font-semibold text-[#64748B] tracking-wider block mb-1">
+          <div className="p-4 rounded-2xl bg-white/[0.03] border border-[#8335EC]/30 mb-6">
+            <span className="text-[10px] uppercase font-semibold text-[#8B5CF6] tracking-wider block mb-1 font-mono">
               Unlock Condition
             </span>
             <div className="text-sm font-semibold text-white flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#10B981]" />
+              <ShieldCheck className="w-4 h-4 text-[#C084FC]" />
               <span>{promise.condition}</span>
             </div>
           </div>
 
           {/* AI Attestation Verified Banner */}
           {aiAttestation && (
-            <div className="p-4 rounded-2xl bg-[#10B981]/15 border border-[#10B981]/40 mb-6 space-y-1">
-              <div className="flex items-center justify-between text-xs font-bold text-[#10B981]">
+            <div className="p-4 rounded-2xl bg-[#8335EC]/20 border border-[#8335EC]/40 mb-6 space-y-1">
+              <div className="flex items-center justify-between text-xs font-bold text-[#A055FF]">
                 <div className="flex items-center gap-2">
-                  <FileCheck className="w-4 h-4 text-[#10B981]" />
+                  <FileCheck className="w-4 h-4 text-[#A055FF]" />
                   <span>✅ Gemini AI Attestation Verified</span>
                 </div>
-                <span className="font-mono bg-black/30 px-2 py-0.5 rounded text-[10px]">
+                <span className="font-mono bg-black/30 px-2 py-0.5 rounded text-[10px] text-[#C084FC]">
                   Confidence: {aiAttestation.confidence}%
                 </span>
               </div>
               <p className="text-xs text-white/90 font-medium">{aiAttestation.reason}</p>
               {aiAttestation.attestationSignature && (
-                <div className="text-[10px] font-mono text-[#A3E635] pt-1 truncate">
+                <div className="text-[10px] font-mono text-[#A055FF] pt-1 truncate">
                   Attestation Sig: {aiAttestation.attestationSignature}
                 </div>
               )}
@@ -233,21 +231,21 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
               <button
                 onClick={handleVerifyClick}
                 disabled={isVermitting}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#A3E635] via-[#B8F000] to-[#10B981] hover:opacity-95 text-[#05070A] font-extrabold text-xs shadow-glowLime transition-all active:scale-95"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#8335EC] via-[#A055FF] to-[#C084FC] hover:opacity-95 text-white font-extrabold text-xs shadow-glowPurple transition-all active:scale-95"
               >
                 {isVermitting ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin text-[#05070A]" />
+                    <Loader2 className="w-4 h-4 animate-spin text-white" />
                     <span>Verifying on Monad...</span>
                   </>
                 ) : isDateCondition ? (
                   <>
-                    <ShieldCheck className="w-4 h-4 text-[#05070A]" />
+                    <ShieldCheck className="w-4 h-4 text-white" />
                     <span>Verify Time-Lock Condition On-Chain</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4 text-[#05070A]" />
+                    <Sparkles className="w-4 h-4 text-white" />
                     <span>Submit Evidence & Verify with AI</span>
                   </>
                 )}
@@ -258,16 +256,16 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
               <button
                 onClick={handleClaimOnChain}
                 disabled={isClaimmitting}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#A3E635] via-[#B8F000] to-[#10B981] hover:opacity-95 text-[#05070A] font-extrabold text-xs shadow-glowLime transition-all active:scale-95"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#8335EC] via-[#A055FF] to-[#C084FC] hover:opacity-95 text-white font-extrabold text-xs shadow-glowPurple transition-all active:scale-95"
               >
                 {isClaimmitting ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin text-[#05070A]" />
+                    <Loader2 className="w-4 h-4 animate-spin text-white" />
                     <span>Claiming Payout...</span>
                   </>
                 ) : (
                   <>
-                    <ArrowUpRight className="w-4 h-4 text-[#05070A]" />
+                    <ArrowUpRight className="w-4 h-4 text-white" />
                     <span>Claim MON Payout</span>
                   </>
                 )}
