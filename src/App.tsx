@@ -105,7 +105,7 @@ export function App() {
   const handleCreatePromise = (newPromise: PromiseItem) => {
     setPromises([newPromise, ...promises]);
 
-    // Add activity timeline item
+    // Add activity timeline item with SUCCESS status
     const newActivity: ActivityItem = {
       id: `act-${Date.now()}`,
       type: 'created',
@@ -114,6 +114,7 @@ export function App() {
       timestamp: 'Just now',
       txHash: newPromise.txHash,
       promiseId: newPromise.id,
+      status: 'SUCCESS',
     };
     setActivities([newActivity, ...activities]);
 
@@ -135,6 +136,7 @@ export function App() {
       timestamp: 'Just now',
       txHash: promise.txHash || `0x${Math.random().toString(16).substring(2, 10)}...`,
       promiseId: promise.id,
+      status: 'SUCCESS',
     };
     setActivities([newActivity, ...activities]);
 
@@ -155,6 +157,7 @@ export function App() {
       timestamp: 'Just now',
       txHash: promise.txHash || `0x${Math.random().toString(16).substring(2, 10)}...`,
       promiseId: promise.id,
+      status: 'SUCCESS',
     };
     setActivities([newActivity, ...activities]);
 

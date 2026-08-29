@@ -86,6 +86,7 @@ export const INITIAL_ACTIVITIES: ActivityItem[] = [
     timestamp: '2 minutes ago',
     txHash: '0x82...19AF',
     promiseId: 'p-1',
+    status: 'SUCCESS',
   },
   {
     id: 'act-2',
@@ -95,6 +96,7 @@ export const INITIAL_ACTIVITIES: ActivityItem[] = [
     timestamp: '5 minutes ago',
     txHash: '0x91...F031',
     promiseId: 'p-2',
+    status: 'SUCCESS',
   },
   {
     id: 'act-3',
@@ -104,5 +106,6 @@ export const INITIAL_ACTIVITIES: ActivityItem[] = [
     timestamp: '12 minutes ago',
     txHash: '0x44...98BC',
     promiseId: 'p-4',
+    status: 'SUCCESS',
   },
 ];

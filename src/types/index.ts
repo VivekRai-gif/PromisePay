@@ -19,6 +19,8 @@ export interface PromiseItem {
   description?: string;
 }
 
+export type ActivityStatus = 'SUCCESS' | 'FAILED' | 'PENDING';
+
 export interface ActivityItem {
   id: string;
   type: 'created' | 'verified' | 'claimed';
@@ -27,6 +29,7 @@ export interface ActivityItem {
   timestamp: string;
   txHash: string;
   promiseId: string;
+  status?: ActivityStatus;
 }
 
 export interface WalletState {

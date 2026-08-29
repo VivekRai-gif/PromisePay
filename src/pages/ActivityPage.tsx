@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ActivityItem } from '../types';
-import { ArrowLeft, Clock, ExternalLink, PlusCircle, ShieldCheck, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, Clock, ExternalLink, PlusCircle, ShieldCheck, ArrowUpRight, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
 interface ActivityPageProps {
   activities: ActivityItem[];
@@ -19,13 +19,13 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ activities, onBack }
     switch (type) {
       case 'created':
         return (
-          <div className="w-9 h-9 rounded-xl bg-[#CFFF00]/10 text-[#CFFF00] border border-[#CFFF00]/30 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-xl bg-[#A3E635]/10 text-[#A3E635] border border-[#A3E635]/30 flex items-center justify-center">
             <PlusCircle className="w-5 h-5" />
           </div>
         );
       case 'verified':
         return (
-          <div className="w-9 h-9 rounded-xl bg-[#19D98B]/15 text-[#19D98B] border border-[#19D98B]/30 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-xl bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 flex items-center justify-center">
             <ShieldCheck className="w-5 h-5" />
           </div>
         );
@@ -38,15 +38,44 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ activities, onBack }
     }
   };
 
+  const renderStatusBadge = (status?: ActivityItem['status']) => {
+    const activeStatus = status || 'SUCCESS';
+    switch (activeStatus) {
+      case 'SUCCESS':
+        return (
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 font-mono shadow-innerLight">
+            <CheckCircle2 className="w-3 h-3 text-[#10B981]" />
+            <span>Success</span>
+          </span>
+        );
+      case 'FAILED':
+        return (
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30 font-mono shadow-innerLight">
+            <AlertCircle className="w-3 h-3 text-rose-400" />
+            <span>Failed</span>
+          </span>
+        );
+      case 'PENDING':
+        return (
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 font-mono shadow-innerLight">
+            <Loader2 className="w-3 h-3 text-amber-300 animate-spin" />
+            <span>Pending</span>
+          </span>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 lg:px-8 py-6 pb-28">
       {/* Header */}
       <div className="mb-8">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#9AA4B2] hover:text-white border border-white/10 text-xs font-semibold mb-4 transition-all group"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#94A3B8] hover:text-white border border-white/10 text-xs font-semibold mb-4 transition-all group"
         >
-          <ArrowLeft className="w-4 h-4 text-[#CFFF00] group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="w-4 h-4 text-[#A3E635] group-hover:-translate-x-1 transition-transform" />
           <span>Back to Home</span>
         </button>
 
@@ -56,12 +85,12 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ activities, onBack }
               <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                 Activity Timeline
               </h1>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#CFFF00]/10 text-[#CFFF00] border border-[#CFFF00]/30 font-mono">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#A3E635]/10 text-[#A3E635] border border-[#A3E635]/30 font-mono">
                 Live Monad Logs
               </span>
             </div>
-            <p className="text-xs text-[#9AA4B2] font-medium">
-              Real-time on-chain transaction activity on Monad Testnet
+            <p className="text-xs text-[#94A3B8] font-medium">
+              Real-time on-chain transaction execution & confirmation status on Monad Testnet
             </p>
           </div>
 
@@ -71,7 +100,7 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ activities, onBack }
               onClick={() => setFilter('ALL')}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 filter === 'ALL'
-                  ? 'bg-gradient-to-r from-[#CFFF00] to-[#19D98B] text-[#05070A] shadow-glowLime'
+                  ? 'bg-gradient-to-r from-[#A3E635] to-[#10B981] text-[#05070A] shadow-glowLime'
                   : 'text-[#64748B] hover:text-white'
               }`}
             >
@@ -81,7 +110,7 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ activities, onBack }
               onClick={() => setFilter('created')}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 filter === 'created'
-                  ? 'bg-[#CFFF00]/15 text-[#CFFF00] border border-[#CFFF00]/30'
+                  ? 'bg-[#A3E635]/15 text-[#A3E635] border border-[#A3E635]/30'
                   : 'text-[#64748B] hover:text-white'
               }`}
             >
@@ -91,7 +120,7 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ activities, onBack }
               onClick={() => setFilter('verified')}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 filter === 'verified'
-                  ? 'bg-[#19D98B]/15 text-[#19D98B] border border-[#19D98B]/30'
+                  ? 'bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30'
                   : 'text-[#64748B] hover:text-white'
               }`}
             >
@@ -112,22 +141,25 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ activities, onBack }
       </div>
 
       {/* Activity Timeline List */}
-      <div className="rounded-3xl p-6 sm:p-8 glass-lime-primary border border-white/12 shadow-card space-y-4">
+      <div className="rounded-3xl p-6 sm:p-8 glass-eye-primary border border-white/12 shadow-card space-y-4">
         {filteredActivities.length > 0 ? (
           filteredActivities.map((act) => (
             <div
               key={act.id}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[#0C1015]/70 hover:bg-white/[0.05] border border-white/10 transition-all"
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[#0A0E17]/80 hover:bg-white/[0.05] border border-white/10 transition-all shadow-innerLight"
             >
               <div className="flex items-center gap-4">
                 {getActivityIcon(act.type)}
                 <div>
-                  <h4 className="text-sm font-bold text-white mb-0.5">{act.title}</h4>
-                  <div className="flex items-center gap-2 text-xs text-[#9AA4B2]">
-                    <span className="font-mono text-[#CFFF00] font-bold">{act.amount} MON</span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h4 className="text-sm font-bold text-white tracking-tight">{act.title}</h4>
+                    {renderStatusBadge(act.status)}
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#94A3B8]">
+                    <span className="font-mono text-[#A3E635] font-extrabold">{act.amount} MON</span>
                     <span className="text-[#64748B]">•</span>
-                    <span className="flex items-center gap-1 font-mono">
-                      <Clock className="w-3.5 h-3.5 text-[#9AA4B2]" />
+                    <span className="flex items-center gap-1 font-mono text-[#94A3B8]">
+                      <Clock className="w-3.5 h-3.5 text-[#94A3B8]" />
                       {act.timestamp}
                     </span>
                   </div>
@@ -138,15 +170,15 @@ export const ActivityPage: React.FC<ActivityPageProps> = ({ activities, onBack }
                 href={`https://testnet.monadexplorer.com/tx/${act.txHash}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#9AA4B2] hover:text-white text-xs font-mono border border-white/10 transition-all self-start sm:self-center group"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#94A3B8] hover:text-white text-xs font-mono border border-white/10 transition-all self-start sm:self-center group"
               >
                 <span>{act.txHash}</span>
-                <ExternalLink className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#CFFF00] transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#A3E635] transition-colors" />
               </a>
             </div>
           ))
         ) : (
-          <div className="p-12 text-center text-[#9AA4B2] text-xs font-mono">
+          <div className="p-12 text-center text-[#94A3B8] text-xs font-mono">
             No transaction activities found for this filter.
           </div>
         )}
