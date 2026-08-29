@@ -4,9 +4,16 @@ import { Plus, Compass, Lock, ShieldCheck, Zap, ArrowUpRight, CheckCircle2, Edit
 interface HeroSectionProps {
   onOpenCreate: () => void;
   onExplore: () => void;
+  isConnected?: boolean;
+  connectedBalance?: number;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenCreate, onExplore }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({
+  onOpenCreate,
+  onExplore,
+  isConnected = false,
+  connectedBalance = 42.5,
+}) => {
   return (
     <section className="relative pt-6 pb-14 overflow-hidden">
       {/* Background Soft Glow Falloff */}
@@ -83,11 +90,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenCreate, onExplor
           {/* Inner Orbital Ring 2 */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[240px] rounded-full orbital-ring-inner pointer-events-none rotate-6" />
 
-          {/* Central Glass Card: PROMISE #4218 */}
+          {/* Central Glass Card: Live Wallet & Promise Info */}
           <div className="relative z-20 max-w-xs mx-auto p-6 rounded-3xl glass-eye-primary border border-[#A3E635]/30 shadow-card text-left">
             <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
               <span className="text-xs font-bold text-white font-mono tracking-wider">
-                PROMISE #4218
+                {isConnected ? 'LIVE WALLET MON' : 'PROMISE #4218'}
               </span>
               <span className="w-2.5 h-2.5 rounded-full bg-[#A3E635] animate-node-ping" />
             </div>
@@ -95,7 +102,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenCreate, onExplor
             <div className="flex items-baseline gap-2 mb-3">
               <Lock className="w-5 h-5 text-[#A3E635]" />
               <span className="text-3xl font-extrabold text-[#A3E635] lime-text-glow">
-                42.50
+                {isConnected ? connectedBalance.toFixed(2) : '42.50'}
               </span>
               <span className="text-xs font-bold text-[#10B981] font-mono">MON</span>
             </div>
@@ -103,9 +110,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenCreate, onExplor
             <div className="space-y-1 text-xs">
               <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#94A3B8]">
                 <span>STATUS</span>
-                <span className="text-[#A3E635] font-bold">● Locked</span>
+                <span className="text-[#A3E635] font-bold">
+                  {isConnected ? '● Wallet Connected' : '● Escrow Locked'}
+                </span>
               </div>
-              <p className="text-[10px] text-[#64748B] font-mono">Created 2h ago</p>
+              <p className="text-[10px] text-[#64748B] font-mono">
+                {isConnected ? 'Real Monad Node Data' : 'Monad Testnet Escrow'}
+              </p>
             </div>
           </div>
 

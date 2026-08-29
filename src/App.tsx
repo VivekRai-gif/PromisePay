@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  MOCK_STATS,
   INITIAL_PROMISES,
   INITIAL_ACTIVITIES,
 } from './data/mockData';
@@ -21,21 +20,18 @@ import { CreatePromisePage } from './pages/CreatePromisePage';
 import { PromiseDetailsPage } from './pages/PromiseDetailsPage';
 import { ActivityPage } from './pages/ActivityPage';
 import { ProfilePage } from './pages/ProfilePage';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 
 export function App() {
   // Real Wagmi + Viem + MetaMask Wallet Integration Hook
   const {
     walletState,
-    isConnecting,
-    isLoadingBalance,
     connectWallet,
     disconnectWallet,
     switchNetwork,
     refetchBalance,
   } = useMonadWallet();
 
-  const [stats, setStats] = useState<StatsData>(MOCK_STATS);
   const [promises, setPromises] = useState<PromiseItem[]>(INITIAL_PROMISES);
   const [activities, setActivities] = useState<ActivityItem[]>(INITIAL_ACTIVITIES);
 
@@ -45,6 +41,14 @@ export function App() {
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [activeFilterTab, setActiveFilterTab] = useState<string>('ALL');
+
+  // Compute Original Real-Time Stats Dynamically from Active Promises
+  const currentStats: StatsData = {
+    totalLocked: promises.filter((p) => p.status === 'LOCKED').reduce((acc, curr) => acc + curr.amount, 0),
+    activePromises: promises.filter((p) => p.status === 'LOCKED').length,
+    fulfilled: promises.filter((p) => p.status === 'FULFILLED').length,
+    totalPromised: promises.reduce((acc, curr) => acc + curr.amount, 0),
+  };
 
   // Show Toast Helper
   const showToast = (msg: string) => {
@@ -100,12 +104,6 @@ export function App() {
   // Create Promise Handler
   const handleCreatePromise = (newPromise: PromiseItem) => {
     setPromises([newPromise, ...promises]);
-    setStats((prev) => ({
-      ...prev,
-      totalLocked: prev.totalLocked + newPromise.amount,
-      activePromises: prev.activePromises + 1,
-      totalPromised: prev.totalPromised + newPromise.amount,
-    }));
 
     // Add activity timeline item
     const newActivity: ActivityItem = {
@@ -149,17 +147,10 @@ export function App() {
       prev.map((p) => (p.id === promise.id ? { ...p, status: 'FULFILLED' as const } : p))
     );
 
-    setStats((prev) => ({
-      ...prev,
-      totalLocked: Math.max(0, prev.totalLocked - promise.amount),
-      activePromises: Math.max(0, prev.activePromises - 1),
-      fulfilled: prev.fulfilled + 1,
-    }));
-
     const newActivity: ActivityItem = {
       id: `act-${Date.now()}`,
       type: 'claimed',
-      title: `Funds Claimed (${promise.title})`,
+      title: `Funds Claimed (${promise.amount} MON)`,
       amount: promise.amount,
       timestamp: 'Just now',
       txHash: promise.txHash || `0x${Math.random().toString(16).substring(2, 10)}...`,
@@ -168,10 +159,9 @@ export function App() {
     setActivities([newActivity, ...activities]);
 
     refetchBalance();
-    showToast(`Claimed ${promise.amount} MON! Settled on Monad Testnet.`);
+    showToast(`Successfully claimed ${promise.amount} MON on Monad Testnet!`);
   };
 
-  // Scroll to active promises section
   const handleExplore = () => {
     setCurrentView('home');
     setTimeout(() => {
@@ -183,7 +173,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#08070D] text-slate-100 flex flex-col justify-between pb-24">
+    <div className="min-h-screen bg-[#070A0F] text-white flex flex-col justify-between pb-24">
       {/* Toast Notification */}
       <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
 
@@ -239,7 +229,7 @@ export function App() {
       ) : currentView === 'profile' ? (
         <ProfilePage
           wallet={walletState}
-          stats={stats}
+          stats={currentStats}
           onBack={handleNavigateHome}
           onToggleWallet={handleToggleWallet}
         />
@@ -249,10 +239,12 @@ export function App() {
           <HeroSection
             onOpenCreate={handleOpenCreatePage}
             onExplore={handleExplore}
+            isConnected={walletState.isConnected}
+            connectedBalance={walletState.balance}
           />
 
-          {/* Portfolio Stats Card */}
-          <StatsCard stats={stats} />
+          {/* Portfolio Stats Card (Real Dynamic Stats) */}
+          <StatsCard stats={currentStats} />
 
           {/* Promise Lifecycle Visual */}
           <LifecycleVisual />
@@ -284,45 +276,21 @@ export function App() {
           <WhyPromisePay />
 
           {/* Recent Activity Timeline */}
-          <RecentActivity activities={activities} />
+          <RecentActivity activities={activities.slice(0, 5)} />
         </main>
       )}
 
-      {/* Floating Bottom Navigation */}
+      {/* Bottom Floating Navigation Bar */}
       <BottomNavigation
-        activeTab={
-          currentView === 'create'
-            ? 'create'
-            : currentView === 'detail'
-            ? 'promises'
-            : currentView === 'activity'
-            ? 'activity'
-            : currentView === 'profile'
-            ? 'profile'
-            : 'home'
-        }
+        activeTab={currentView}
         setActiveTab={(tab) => {
           if (tab === 'home') handleNavigateHome();
-          if (tab === 'create') handleOpenCreatePage();
-          if (tab === 'promises') handleExplore();
-          if (tab === 'activity') handleNavigateActivity();
-          if (tab === 'profile') handleNavigateProfile();
+          else if (tab === 'promises') handleExplore();
+          else if (tab === 'activity') handleNavigateActivity();
+          else if (tab === 'profile') handleNavigateProfile();
         }}
         onOpenCreate={handleOpenCreatePage}
       />
-
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-8 text-center text-xs text-slate-400">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-extrabold text-white">PROMISEPAY</span>
-            <span>• Monad Blitz New Delhi V4</span>
-          </div>
-          <p className="text-slate-400">
-            Turn promises into programmable money. Smart Contracts on Monad Testnet.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
