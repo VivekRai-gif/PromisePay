@@ -4,31 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        lime: {
-          DEFAULT: '#CFFF00',
-          electric: '#B8F000',
-          dark: '#96CE00',
-        },
-        emerald: {
-          fresh: '#19D98B',
-          deep: '#00C878',
-        },
-        violet: {
-          soft: '#8B5CF6',
-          electric: '#7C3AED',
-        },
-        yellow: {
-          warm: '#F4E04D',
-        },
-        protocol: {
-          bg: '#05070A',
-          dark: '#080B10',
-          surface: '#0C1015',
-          card: '#10151B',
-          cardLight: '#121820',
-          cardBorder: '#161D25',
-          textPrimary: '#F8FAFC',
-          textSecondary: '#9AA4B2',
+        eye: {
+          bg: '#070A0F',
+          dark: '#0A0E17',
+          surface: '#0E1420',
+          card: '#121A2A',
+          cardBorder: '#1A2438',
+          lime: '#A3E635',
+          limeBright: '#B8F000',
+          emerald: '#10B981',
+          teal: '#14B8A6',
+          purple: '#8B5CF6',
+          yellow: '#F59E0B',
+          textPrimary: '#FFFFFF',
+          textSecondary: '#94A3B8',
           textMuted: '#64748B',
         },
       },
@@ -37,30 +26,33 @@ export default {
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       boxShadow: {
-        glowLime: '0 0 35px -5px rgba(207, 255, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.2)',
-        glowEmerald: '0 0 35px -5px rgba(25, 217, 139, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.15)',
-        glowViolet: '0 0 35px -5px rgba(139, 92, 246, 0.35)',
-        card: '0 20px 50px -12px rgba(0, 0, 0, 0.7)',
-        innerHighlight: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.5)',
+        glowLime: '0 0 35px -5px rgba(163, 230, 53, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2)',
+        glowEmerald: '0 0 35px -5px rgba(16, 185, 129, 0.35)',
+        orbital: '0 0 50px -10px rgba(163, 230, 53, 0.25)',
+        card: '0 20px 50px -10px rgba(0, 0, 0, 0.8)',
+        innerLight: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.15)',
       },
       backgroundImage: {
-        'lime-emerald-btn': 'linear-gradient(135deg, #CFFF00 0%, #B8F000 45%, #19D98B 100%)',
-        'lime-card-primary': 'linear-gradient(135deg, rgba(16, 21, 27, 0.9) 0%, rgba(12, 16, 21, 0.95) 100%)',
-        'lime-card-highlight': 'linear-gradient(135deg, rgba(20, 28, 36, 0.9) 0%, rgba(10, 14, 19, 0.95) 100%)',
-        'lime-text-gradient': 'linear-gradient(135deg, #FFFFFF 0%, #CFFF00 50%, #19D98B 100%)',
+        'lime-gradient': 'linear-gradient(135deg, #A3E635 0%, #B8F000 50%, #10B981 100%)',
+        'hero-glow': 'radial-gradient(circle at 75% 30%, rgba(163, 230, 53, 0.18) 0%, rgba(16, 185, 129, 0.10) 35%, transparent 70%)',
+        'card-glass': 'linear-gradient(135deg, rgba(14, 20, 32, 0.85) 0%, rgba(10, 14, 23, 0.95) 100%)',
       },
       animation: {
-        'node-pulse': 'nodePulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'float-slow': 'floatSlow 7s ease-in-out infinite',
+        'orbital-rotate': 'orbitalRotate 20s linear infinite',
+        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+        'node-ping': 'nodePing 2s cubic-bezier(0, 0, 0.2, 1) infinite',
       },
       keyframes: {
-        nodePulse: {
-          '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
-          '50%': { opacity: '1', transform: 'scale(1.25)' },
+        orbitalRotate: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
         },
-        floatSlow: {
-          '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-          '50%': { transform: 'translateY(-10px) rotate(0.5deg)' },
+        pulseGlow: {
+          '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+          '50%': { opacity: '0.9', transform: 'scale(1.08)' },
+        },
+        nodePing: {
+          '75%, 100%': { transform: 'scale(1.8)', opacity: '0' },
         },
       },
     },
