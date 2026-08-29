@@ -16,6 +16,7 @@ import { WhyPromisePay } from './components/WhyPromisePay';
 import { RecentActivity } from './components/RecentActivity';
 import { BottomNavigation } from './components/BottomNavigation';
 import { Toast } from './components/Toast';
+import { CelebrationModal } from './components/CelebrationModal';
 import { CreatePromisePage } from './pages/CreatePromisePage';
 import { PromiseDetailsPage } from './pages/PromiseDetailsPage';
 import { ActivityPage } from './pages/ActivityPage';
@@ -41,6 +42,19 @@ export function App() {
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [activeFilterTab, setActiveFilterTab] = useState<string>('ALL');
+
+  // Party Popper & Balloons Celebration Pop-up State
+  const [celebration, setCelebration] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    txHash?: string;
+    amount?: number | string;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+  });
 
   // Compute Original Real-Time Stats Dynamically from Active Promises
   const currentStats: StatsData = {
@@ -119,7 +133,16 @@ export function App() {
     setActivities([newActivity, ...activities]);
 
     refetchBalance();
-    showToast(`Locked ${newPromise.amount} MON on Monad Testnet! Tx: ${newPromise.txHash.slice(0, 10)}...`);
+    showToast(`Locked ${newPromise.amount} MON on Monad Testnet!`);
+
+    // Trigger Balloons & Party Popper Celebration Pop-up
+    setCelebration({
+      isOpen: true,
+      title: 'Promise Created & Locked!',
+      message: `Successfully locked ${newPromise.amount} MON on Monad Testnet smart contract vault behind condition "${newPromise.condition}".`,
+      txHash: newPromise.txHash,
+      amount: `${newPromise.amount}`,
+    });
   };
 
   // Verify Promise Handler
@@ -141,6 +164,15 @@ export function App() {
     setActivities([newActivity, ...activities]);
 
     showToast(`Condition for "${promise.title}" verified on Monad Testnet!`);
+
+    // Trigger Balloons & Party Popper Celebration Pop-up
+    setCelebration({
+      isOpen: true,
+      title: 'Condition Verified!',
+      message: `Condition for "${promise.title}" has been successfully verified on Monad Testnet! Locked funds are now claimable by the recipient.`,
+      txHash: promise.txHash,
+      amount: `${promise.amount}`,
+    });
   };
 
   // Claim Promise Handler
@@ -163,6 +195,15 @@ export function App() {
 
     refetchBalance();
     showToast(`Successfully claimed ${promise.amount} MON on Monad Testnet!`);
+
+    // Trigger Balloons & Party Popper Celebration Pop-up
+    setCelebration({
+      isOpen: true,
+      title: 'Funds Claimed Successfully!',
+      message: `🎉 ${promise.amount} MON payout has been released to recipient wallet ${promise.recipient}!`,
+      txHash: promise.txHash,
+      amount: `${promise.amount}`,
+    });
   };
 
   const handleExplore = () => {
@@ -179,6 +220,16 @@ export function App() {
     <div className="min-h-screen bg-[#070A0F] text-white flex flex-col justify-between pb-24">
       {/* Toast Notification */}
       <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+
+      {/* Balloons & Party Popper Transaction Success Celebration Pop-up */}
+      <CelebrationModal
+        isOpen={celebration.isOpen}
+        onClose={() => setCelebration((prev) => ({ ...prev, isOpen: false }))}
+        title={celebration.title}
+        message={celebration.message}
+        txHash={celebration.txHash}
+        amount={celebration.amount}
+      />
 
       {/* Top Network Warning Banner if connected to Wrong Network */}
       {walletState.isConnected && !walletState.isCorrectNetwork && (
