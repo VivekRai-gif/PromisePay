@@ -1,71 +1,60 @@
 import React from 'react';
-import { User, CheckCircle2, AlertCircle } from 'lucide-react';
+import { User, Wallet, CheckCircle2 } from 'lucide-react';
 
 interface RecipientInputProps {
   value: string;
-  onChange: (val: string) => void;
+  onChange: (value: string) => void;
 }
 
 export const RecipientInput: React.FC<RecipientInputProps> = ({ value, onChange }) => {
-  // Simple check for eth/monad address format
   const isValidAddress = value.startsWith('0x') && value.length >= 10;
-  const mockQuickAddresses = [
-    { label: 'Graduation Recipient', address: '0x829F4B1A7D832E91AF203102948219048291A91C' },
-    { label: 'Dev Milestone', address: '0x19B492048D2019A8201948201984201972FA029A' },
-    { label: 'Challenge Buddy', address: '0x51E247B98D331AF04B9C02948201948201BC8201' },
+
+  const presets = [
+    { label: 'Deployed Contract', address: '0x829F4B1A7D832E91AF203102948219048291A91C' },
+    { label: 'Friend Wallet', address: '0x7291AC829F4B1A7D832E91AF203102948219048291AC' },
   ];
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
-          Who are you promising?
+        <label className="block text-xs font-bold text-[#64748B] uppercase tracking-wider font-mono">
+          Who are you promising? (Recipient Wallet)
         </label>
-        {value.length > 0 && (
-          <div className="flex items-center gap-1.5 text-[11px] font-medium">
-            {isValidAddress ? (
-              <span className="text-emerald-400 flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                Valid Address
-              </span>
-            ) : (
-              <span className="text-amber-400 flex items-center gap-1">
-                <AlertCircle className="w-3.5 h-3.5" />
-                Incomplete address (0x...)
-              </span>
-            )}
-          </div>
+        {isValidAddress && (
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#19D98B]">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span>Valid EVM Address</span>
+          </span>
         )}
       </div>
 
       <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#CFFF00]">
+          <User className="w-4 h-4" />
+        </div>
         <input
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="0x..."
-          className={`w-full px-4 py-3.5 rounded-2xl glass-input text-xs sm:text-sm font-mono pl-11 transition-all ${
-            isValidAddress ? 'border-emerald-500/40 focus:border-emerald-400' : ''
-          }`}
+          className="w-full pl-11 pr-4 py-3.5 rounded-2xl glass-input text-xs font-mono font-semibold text-white tracking-wider placeholder-[#64748B]"
         />
-        <User className="w-4 h-4 text-slate-400 absolute left-4 top-4" />
       </div>
 
       {/* Quick Select Presets */}
-      <div className="pt-1">
-        <span className="text-[10px] text-slate-400 font-medium block mb-1.5">Quick Select Mock Addresses:</span>
-        <div className="flex flex-wrap gap-1.5">
-          {mockQuickAddresses.map((item, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => onChange(item.address)}
-              className="px-2.5 py-1 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] text-[11px] text-slate-300 hover:text-white border border-white/5 transition-all font-mono"
-            >
-              {item.label} ({item.address.slice(0, 6)}...{item.address.slice(-4)})
-            </button>
-          ))}
-        </div>
+      <div className="flex items-center gap-2 pt-1">
+        <span className="text-[11px] text-[#64748B] font-medium">Quick Select:</span>
+        {presets.map((p, idx) => (
+          <button
+            key={idx}
+            type="button"
+            onClick={() => onChange(p.address)}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#9AA4B2] hover:text-[#CFFF00] border border-white/10 text-[11px] font-mono font-semibold transition-all"
+          >
+            <Wallet className="w-3 h-3 text-[#CFFF00]" />
+            <span>{p.label}</span>
+          </button>
+        ))}
       </div>
     </div>
   );
