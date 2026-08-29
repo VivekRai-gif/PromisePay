@@ -1,5 +1,6 @@
 import React from 'react';
 import { WalletState } from '../types';
+import { formatMonBalance } from '../utils/format';
 import { Bell, Sparkles, Wallet, ChevronDown, Activity, Lock, Plus, Home, User } from 'lucide-react';
 
 interface NavbarProps {
@@ -138,7 +139,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span>+ Create Promise</span>
           </button>
 
-          {/* Wallet & Balance Pills (Matches Reference Image) */}
+          {/* Wallet & Balance Pills (4 Decimal Places Precision) */}
           {wallet.isConnected ? (
             <div className="flex items-center gap-2">
               {/* Balance Badge */}
@@ -146,7 +147,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={onNavigateProfile}
                 className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-[#0E1420] border border-[#A3E635]/30 text-[#A3E635] text-xs font-bold shadow-innerLight cursor-pointer transition-all hover:border-[#A3E635]/60"
               >
-                <span className="text-white font-extrabold lime-text-glow">{wallet.balance.toFixed(2)}</span>
+                <span className="text-white font-extrabold lime-text-glow">
+                  {formatMonBalance(wallet.balanceString || wallet.balance)}
+                </span>
                 <span className="text-[#A3E635] text-[10px]">MON</span>
               </div>
 

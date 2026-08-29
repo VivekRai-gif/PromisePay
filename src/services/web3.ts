@@ -29,6 +29,7 @@ export interface Web3WalletInfo {
   address: string;
   fullAddress: string;
   balance: number;
+  balanceString?: string;
   network: string;
   chainId: number;
   isConnected: boolean;
@@ -36,19 +37,33 @@ export interface Web3WalletInfo {
 }
 
 /**
- * Fetch live native MON balance directly from connected MetaMask window.ethereum provider
+ * Fetch raw precise native MON balance string directly from connected MetaMask provider
  */
-export async function getLiveWalletBalance(address: string): Promise<number> {
-  if (typeof window === 'undefined' || !window.ethereum || !address) return 0;
+export async function getLiveWalletBalanceRaw(address: string): Promise<{ balanceNum: number; balanceStr: string }> {
+  if (typeof window === 'undefined' || !window.ethereum || !address) {
+    return { balanceNum: 0, balanceStr: '0.0000' };
+  }
   try {
     const provider = new ethers.BrowserProvider(window.ethereum);
     const rawBalance = await provider.getBalance(address);
-    const formatted = parseFloat(ethers.formatEther(rawBalance));
-    return isNaN(formatted) ? 0 : formatted;
+    const formattedStr = ethers.formatEther(rawBalance);
+    const balanceNum = parseFloat(formattedStr);
+    return {
+      balanceNum: isNaN(balanceNum) ? 0 : balanceNum,
+      balanceStr: formattedStr,
+    };
   } catch (err) {
     console.warn('Direct RPC balance fetch error:', err);
-    return 0;
+    return { balanceNum: 0, balanceStr: '0.0000' };
   }
+}
+
+/**
+ * Fetch live native MON balance directly from connected MetaMask provider
+ */
+export async function getLiveWalletBalance(address: string): Promise<number> {
+  const result = await getLiveWalletBalanceRaw(address);
+  return result.balanceNum;
 }
 
 /**
@@ -106,12 +121,13 @@ export async function connectMetaMask(): Promise<Web3WalletInfo> {
   }
 
   // Fetch real native MON balance
-  const formattedBalance = await getLiveWalletBalance(userAddress);
+  const { balanceNum, balanceStr } = await getLiveWalletBalanceRaw(userAddress);
 
   return {
     address: `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`,
     fullAddress: userAddress,
-    balance: formattedBalance,
+    balance: balanceNum,
+    balanceString: balanceStr,
     network: isCorrectChain ? 'Monad Testnet' : 'Wrong Network',
     chainId: currentChainId,
     isConnected: true,

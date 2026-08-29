@@ -1,60 +1,78 @@
 import React from 'react';
-import { Coins, Zap } from 'lucide-react';
+import { formatMonBalance } from '../../utils/format';
+import { Coins, Lock } from 'lucide-react';
 
 interface AmountInputProps {
   value: string;
   onChange: (value: string) => void;
-  userBalance?: number;
+  userBalance?: number | string;
 }
 
 export const AmountInput: React.FC<AmountInputProps> = ({
   value,
   onChange,
-  userBalance = 42.5,
+  userBalance = 0,
 }) => {
-  const presets = ['0.5', '1.0', '5.0', '10.0'];
+  const handlePresetClick = (preset: number) => {
+    onChange(preset.toString());
+  };
+
+  const handleMaxClick = () => {
+    if (typeof userBalance === 'number' && userBalance > 0) {
+      onChange(userBalance.toString());
+    } else if (typeof userBalance === 'string' && userBalance !== '0') {
+      onChange(userBalance);
+    }
+  };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-bold text-[#64748B] uppercase tracking-wider font-mono">
-          How much MON are you locking?
+        <label className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider font-mono flex items-center gap-1.5">
+          <Coins className="w-3.5 h-3.5 text-[#A3E635]" />
+          <span>Amount to Lock (MON)</span>
         </label>
-        <span className="text-[11px] text-[#9AA4B2] font-semibold">
-          Balance: <strong className="text-[#CFFF00] font-mono">{userBalance.toFixed(2)} MON</strong>
+        <span className="text-[11px] font-mono text-[#64748B]">
+          Balance: <strong className="text-[#A3E635]">{formatMonBalance(userBalance)} MON</strong>
         </span>
       </div>
 
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#CFFF00]">
-          <Coins className="w-4 h-4" />
-        </div>
+      <div className="relative flex items-center">
         <input
           type="number"
-          step="0.1"
-          min="0.1"
+          step="0.0001"
+          min="0.0001"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="1.0"
-          className="w-full pl-11 pr-20 py-3.5 rounded-2xl glass-input text-sm font-extrabold text-[#CFFF00] lime-glow tracking-wider placeholder-[#64748B]"
+          placeholder="0.0"
+          className="w-full pl-4 pr-24 py-3.5 rounded-2xl glass-input text-lg font-bold text-white placeholder-[#64748B] focus:outline-none font-mono"
         />
-        <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none font-extrabold text-xs text-[#19D98B] font-mono">
-          MON NATIVE
+
+        <div className="absolute right-3 flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={handleMaxClick}
+            className="px-2.5 py-1 rounded-xl bg-[#A3E635]/15 hover:bg-[#A3E635]/25 text-[#A3E635] border border-[#A3E635]/30 text-[10px] font-extrabold font-mono transition-all"
+          >
+            MAX
+          </button>
+          <span className="px-2 py-1 rounded-xl bg-white/[0.06] text-white text-xs font-extrabold font-mono border border-white/10">
+            MON
+          </span>
         </div>
       </div>
 
-      {/* Preset Amount Pills */}
+      {/* Preset Amount Chips */}
       <div className="flex items-center gap-2 pt-1">
-        <span className="text-[11px] text-[#64748B] font-medium">Quick Amounts:</span>
-        {presets.map((preset) => (
+        {[1, 5, 10, 25, 50].map((preset) => (
           <button
             key={preset}
             type="button"
-            onClick={() => onChange(preset)}
-            className={`px-3 py-1 rounded-xl text-xs font-mono font-bold transition-all ${
-              value === preset
-                ? 'bg-gradient-to-r from-[#CFFF00] to-[#19D98B] text-[#05070A] shadow-glowLime'
-                : 'bg-white/[0.04] hover:bg-white/[0.08] text-[#9AA4B2] hover:text-[#CFFF00] border border-white/10'
+            onClick={() => handlePresetClick(preset)}
+            className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold border transition-all ${
+              value === preset.toString()
+                ? 'bg-gradient-to-r from-[#A3E635] to-[#10B981] text-[#05070A] border-transparent shadow-glowLime'
+                : 'bg-white/[0.03] hover:bg-white/[0.08] text-[#94A3B8] border-white/10'
             }`}
           >
             {preset} MON

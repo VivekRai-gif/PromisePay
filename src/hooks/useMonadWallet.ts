@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAccount, useBalance, useConnect, useDisconnect, useChainId, useSwitchChain } from 'wagmi';
 import { formatEther } from 'viem';
 import { monadTestnet, MONAD_TESTNET_CHAIN_ID } from '../lib/monad';
-import { connectMetaMask, switchToMonadNetwork, getLiveWalletBalance, Web3WalletInfo } from '../services/web3';
+import { connectMetaMask, switchToMonadNetwork, getLiveWalletBalanceRaw, Web3WalletInfo } from '../services/web3';
 
 export interface UseMonadWalletReturn {
   walletState: Web3WalletInfo;
@@ -26,6 +26,7 @@ export function useMonadWallet(): UseMonadWalletReturn {
     address: 'Not Connected',
     fullAddress: '',
     balance: 0.0,
+    balanceString: '0.0000',
     network: 'Disconnected',
     chainId: 0,
     isConnected: false,
@@ -50,10 +51,11 @@ export function useMonadWallet(): UseMonadWalletReturn {
   const fetchLiveBalance = useCallback(async (targetAddress: string) => {
     if (!targetAddress) return;
     try {
-      const realBal = await getLiveWalletBalance(targetAddress);
+      const { balanceNum, balanceStr } = await getLiveWalletBalanceRaw(targetAddress);
       setLocalWallet((prev) => ({
         ...prev,
-        balance: realBal > 0 ? realBal : prev.balance,
+        balance: balanceNum > 0 ? balanceNum : prev.balance,
+        balanceString: balanceStr || prev.balanceString,
       }));
     } catch (e) {
       console.warn('Failed fetching live balance from provider:', e);
@@ -76,26 +78,30 @@ export function useMonadWallet(): UseMonadWalletReturn {
         const formattedAddr = `${address.slice(0, 6)}...${address.slice(-4)}`;
         
         // Try Wagmi balance format first
-        let currentBal = 0;
+        let currentBalStr = '0.0000';
+        let currentBalNum = 0;
         if (balanceData) {
           try {
-            const formattedString = (balanceData as any).formatted || (balanceData.value ? formatEther(balanceData.value) : '0');
-            currentBal = parseFloat(formattedString);
+            currentBalStr = (balanceData as any).formatted || (balanceData.value ? formatEther(balanceData.value) : '0');
+            currentBalNum = parseFloat(currentBalStr);
           } catch (e) {
-            currentBal = 0;
+            currentBalStr = '0.0000';
+            currentBalNum = 0;
           }
         }
-        if (isNaN(currentBal)) currentBal = 0;
+        if (isNaN(currentBalNum)) currentBalNum = 0;
 
         // Fetch live balance directly from connected browser provider
-        const directProviderBalance = await getLiveWalletBalance(address);
-        const finalBalance = directProviderBalance > 0 ? directProviderBalance : currentBal;
+        const { balanceNum: directNum, balanceStr: directStr } = await getLiveWalletBalanceRaw(address);
+        const finalNum = directNum > 0 ? directNum : currentBalNum;
+        const finalStr = directStr && directStr !== '0' ? directStr : currentBalStr;
 
         if (isSubscribed) {
           setLocalWallet({
             address: formattedAddr,
             fullAddress: address,
-            balance: finalBalance,
+            balance: finalNum,
+            balanceString: finalStr,
             network: isCorrectNetwork ? 'Monad Testnet' : 'Wrong Network',
             chainId: activeChainId || MONAD_TESTNET_CHAIN_ID,
             isConnected: true,
@@ -107,7 +113,8 @@ export function useMonadWallet(): UseMonadWalletReturn {
           setLocalWallet({
             address: 'Not Connected',
             fullAddress: '',
-            balance: 42.5, // Default balance when disconnected
+            balance: 49.089, // Default demo balance when disconnected
+            balanceString: '49.0890',
             network: 'Disconnected',
             chainId: 0,
             isConnected: false,
@@ -154,7 +161,8 @@ export function useMonadWallet(): UseMonadWalletReturn {
     setLocalWallet({
       address: 'Not Connected',
       fullAddress: '',
-      balance: 42.5,
+      balance: 49.089,
+      balanceString: '49.0890',
       network: 'Disconnected',
       chainId: 0,
       isConnected: false,

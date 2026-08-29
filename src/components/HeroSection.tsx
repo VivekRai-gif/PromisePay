@@ -1,12 +1,13 @@
 import React from 'react';
+import { formatMonBalance } from '../utils/format';
 import { Plus, Compass, Lock, ShieldCheck, Zap, CheckCircle2, Edit3, ArrowUpRightFromSquare } from 'lucide-react';
 
 interface HeroSectionProps {
   onOpenCreate: () => void;
   onExplore: () => void;
   isConnected?: boolean;
-  connectedBalance?: number;
-  totalLocked?: number;
+  connectedBalance?: number | string;
+  totalLocked?: number | string;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -17,8 +18,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   totalLocked = 0,
 }) => {
   const displayAmount = isConnected
-    ? (typeof connectedBalance === 'number' && !isNaN(connectedBalance) ? connectedBalance : 0).toFixed(2)
-    : (typeof totalLocked === 'number' && !isNaN(totalLocked) ? totalLocked : 0).toFixed(2);
+    ? formatMonBalance(connectedBalance)
+    : formatMonBalance(totalLocked);
 
   return (
     <section className="relative pt-6 pb-14 overflow-hidden">
@@ -96,7 +97,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {/* Inner Orbital Ring 2 */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[240px] rounded-full orbital-ring-inner pointer-events-none rotate-6" />
 
-          {/* Central Glass Card: Real Calculated MON Data */}
+          {/* Central Glass Card: Real Calculated MON Data (4 Decimal Places) */}
           <div className="relative z-20 max-w-xs mx-auto p-6 rounded-3xl glass-eye-primary border border-[#A3E635]/30 shadow-card text-left">
             <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
               <span className="text-xs font-bold text-white font-mono tracking-wider">

@@ -37,6 +37,7 @@ export interface WalletState {
   address: string;
   fullAddress?: string;
   balance: number;
+  balanceString?: string;
   network: string;
   chainId: number;
   isCorrectNetwork?: boolean;
