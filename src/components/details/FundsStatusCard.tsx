@@ -13,44 +13,44 @@ export const FundsStatusCard: React.FC<FundsStatusCardProps> = ({ amount, status
   const isFulfilled = status === 'FULFILLED';
 
   return (
-    <div className={`relative overflow-hidden rounded-3xl p-6 glass-panel border transition-all duration-500 ${
+    <div className={`relative overflow-hidden rounded-3xl p-6 glass-lime-primary border transition-all duration-500 ${
       isLocked
-        ? 'border-[#D95B9A]/40 shadow-glowPink bg-gradient-to-br from-[#342031] to-[#151118]'
+        ? 'border-[#CFFF00]/40 shadow-glowLime bg-gradient-to-br from-[#10151B] to-[#05070A]'
         : isVerified
-        ? 'border-emerald-500/40 shadow-glowEmerald bg-gradient-to-br from-emerald-950/40 to-[#121016]'
-        : 'border-[#A984C4]/30 bg-gradient-to-br from-[#211722] to-[#121016]'
+        ? 'border-[#19D98B]/40 shadow-glowEmerald bg-gradient-to-br from-[#10151B] to-[#05070A]'
+        : 'border-[#8B5CF6]/30 bg-gradient-to-br from-[#10151B] to-[#05070A]'
     }`}>
       {/* Ambient background glow */}
       <div className={`absolute top-0 right-0 w-52 h-52 rounded-full blur-3xl pointer-events-none ${
         isLocked
-          ? 'bg-[#D95B9A]/20'
+          ? 'bg-[#CFFF00]/15'
           : isVerified
-          ? 'bg-emerald-500/15'
-          : 'bg-[#A984C4]/20'
+          ? 'bg-[#19D98B]/15'
+          : 'bg-[#8B5CF6]/15'
       }`} />
 
       <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider mb-1">
-            {isLocked && <Lock className="w-3.5 h-3.5 text-[#E38BB5] animate-pulse" />}
-            {isVerified && <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />}
-            {isFulfilled && <CheckCircle2 className="w-3.5 h-3.5 text-[#A984C4]" />}
-            <span className={isLocked ? 'text-[#E38BB5]' : isVerified ? 'text-emerald-300' : 'text-[#A984C4]'}>
+            {isLocked && <Lock className="w-3.5 h-3.5 text-[#CFFF00] animate-node-pulse" />}
+            {isVerified && <ShieldCheck className="w-3.5 h-3.5 text-[#19D98B]" />}
+            {isFulfilled && <CheckCircle2 className="w-3.5 h-3.5 text-[#8B5CF6]" />}
+            <span className={isLocked ? 'text-[#CFFF00]' : isVerified ? 'text-[#19D98B]' : 'text-[#8B5CF6]'}>
               {isLocked ? 'Locked Funds Escrow' : isVerified ? 'Verified & Claimable' : 'Settled Payout'}
             </span>
           </div>
 
-          <p className="text-xs text-[#C8C1C9] font-medium">
+          <p className="text-xs text-[#9AA4B2] font-medium">
             Funds are secured by PromisePay smart contract on Monad Testnet.
           </p>
         </div>
 
         {/* Large Amount Display */}
-        <div className="bg-[#121016]/80 p-3.5 px-5 rounded-2xl border border-white/10 flex items-baseline gap-2 shrink-0">
-          <span className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+        <div className="bg-[#0C1015]/90 p-3.5 px-5 rounded-2xl border border-white/10 flex items-baseline gap-2 shrink-0">
+          <span className="text-2xl sm:text-3xl font-extrabold text-[#CFFF00] tracking-tight lime-glow">
             {amount.toFixed(2)}
           </span>
-          <span className="text-xs font-bold text-[#E38BB5]">MON</span>
+          <span className="text-xs font-bold text-[#19D98B]">MON</span>
         </div>
       </div>
     </div>

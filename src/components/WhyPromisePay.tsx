@@ -7,35 +7,35 @@ export const WhyPromisePay: React.FC = () => {
       title: 'Trustless',
       description: 'Funds are committed upfront and locked inside Monad smart contracts.',
       icon: Lock,
-      gradient: 'from-[#D95B9A]/20 via-[#C66B9B]/15 to-transparent',
-      iconColor: 'text-[#E38BB5]',
-      borderColor: 'group-hover:border-[#D95B9A]/40',
-      bgCard: 'bg-gradient-to-br from-[#211722] to-[#151118]',
+      gradient: 'from-[#CFFF00]/15 via-[#19D98B]/10 to-transparent',
+      iconColor: 'text-[#CFFF00]',
+      borderColor: 'group-hover:border-[#CFFF00]/40',
+      bgCard: 'bg-gradient-to-br from-[#10151B] to-[#05070A]',
     },
     {
       title: 'Conditional',
       description: 'Money moves only when predefined milestones or criteria are verified.',
       icon: GitBranch,
-      gradient: 'from-[#C66B9B]/20 via-[#4B304F]/20 to-transparent',
-      iconColor: 'text-[#E38BB5]',
-      borderColor: 'group-hover:border-[#C66B9B]/40',
-      bgCard: 'bg-gradient-to-br from-[#342031] to-[#19121A]',
+      gradient: 'from-[#19D98B]/15 via-[#00C878]/10 to-transparent',
+      iconColor: 'text-[#19D98B]',
+      borderColor: 'group-hover:border-[#19D98B]/40',
+      bgCard: 'bg-gradient-to-br from-[#10151B] to-[#05070A]',
     },
     {
       title: 'Automatic',
       description: 'No chasing. No reminders. No manual settlement or follow-ups.',
       icon: Zap,
-      gradient: 'from-[#A984C4]/20 via-[#765878]/20 to-transparent',
-      iconColor: 'text-[#A984C4]',
-      borderColor: 'group-hover:border-[#A984C4]/40',
-      bgCard: 'bg-gradient-to-br from-[#3A2338] to-[#171118]',
+      gradient: 'from-[#8B5CF6]/15 via-[#7C3AED]/10 to-transparent',
+      iconColor: 'text-[#8B5CF6]',
+      borderColor: 'group-hover:border-[#8B5CF6]/40',
+      bgCard: 'bg-gradient-to-br from-[#10151B] to-[#05070A]',
     },
   ];
 
   return (
     <section className="mb-12">
       <div className="text-center max-w-xl mx-auto mb-8">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#342031]/80 text-[#E38BB5] text-xs font-semibold mb-2 border border-[#D95B9A]/30">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#CFFF00]/10 text-[#CFFF00] text-xs font-semibold mb-2 border border-[#CFFF00]/30 font-mono">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Why PromisePay</span>
         </div>
@@ -57,7 +57,7 @@ export const WhyPromisePay: React.FC = () => {
                 <IconComp className={`w-6 h-6 ${card.iconColor}`} />
               </div>
               <h3 className="text-lg font-bold text-white mb-2">{card.title}</h3>
-              <p className="text-xs text-[#C8C1C9] font-normal leading-relaxed">
+              <p className="text-xs text-[#9AA4B2] font-normal leading-relaxed">
                 {card.description}
               </p>
             </div>

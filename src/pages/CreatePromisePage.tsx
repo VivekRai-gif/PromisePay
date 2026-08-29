@@ -74,9 +74,9 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
       <div className="mb-8">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white border border-white/5 text-xs font-semibold mb-4 transition-all group"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#9AA4B2] hover:text-white border border-white/10 text-xs font-semibold mb-4 transition-all group"
         >
-          <ArrowLeft className="w-4 h-4 text-purple-400 group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="w-4 h-4 text-[#CFFF00] group-hover:-translate-x-1 transition-transform" />
           <span>Back to Home</span>
         </button>
 
@@ -85,11 +85,11 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               Create a Promise
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/10 text-purple-300 border border-purple-500/30">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#CFFF00]/10 text-[#CFFF00] border border-[#CFFF00]/30 font-mono">
               Monad Escrow
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400 font-medium">
+          <p className="text-xs sm:text-sm text-[#9AA4B2] font-medium">
             Lock money today. Release it when your promise is fulfilled.
           </p>
         </div>
@@ -98,36 +98,41 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
       {/* Main Grid: Form Left, Preview Right */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Form Container */}
-        <div className="lg:col-span-7 space-y-6 rounded-3xl p-6 sm:p-8 glass-panel border border-white/10 shadow-card">
-          <RecipientInput value={recipient} onChange={setRecipient} />
-          <hr className="border-white/5" />
-          <AmountInput value={amount} onChange={setAmount} userBalance={userBalance} />
-          <hr className="border-white/5" />
-          <PromiseTypeSelector selectedType={promiseType} onSelectType={setPromiseType} />
-          <hr className="border-white/5" />
-          <ConditionSelector
-            promiseType={promiseType}
-            unlockDate={unlockDate}
-            onUnlockDateChange={setUnlockDate}
-            customConditionText={customConditionText}
-            onCustomConditionChange={setCustomConditionText}
-          />
+        {/* Left Column: Form Fields */}
+        <div className="lg:col-span-7 space-y-6">
+          <div className="rounded-3xl p-6 sm:p-7 glass-lime-primary border border-white/10 shadow-card space-y-6">
+            
+            {/* Field 1: Recipient Input */}
+            <RecipientInput value={recipient} onChange={setRecipient} />
 
-          {/* Action Button */}
-          <div className="pt-4">
+            {/* Field 2: Amount Input */}
+            <AmountInput value={amount} onChange={setAmount} userBalance={userBalance} />
+
+            {/* Field 3: Promise Type Selector */}
+            <PromiseTypeSelector selectedType={promiseType} onSelectType={setPromiseType} />
+
+            {/* Field 4: Condition Details */}
+            <ConditionSelector
+              promiseType={promiseType}
+              unlockDate={unlockDate}
+              setUnlockDate={setUnlockDate}
+              customConditionText={customConditionText}
+              setCustomConditionText={setCustomConditionText}
+            />
+
+            {/* Lock Money CTA Trigger */}
             <button
-              type="button"
               onClick={() => setIsConfirmModalOpen(true)}
-              className="w-full flex items-center justify-center gap-2.5 py-4 px-6 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-sm shadow-glow hover:shadow-glowPink transition-all duration-300 active:scale-98"
+              className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-r from-[#CFFF00] via-[#B8F000] to-[#19D98B] hover:opacity-95 text-[#05070A] font-extrabold text-sm shadow-glowLime transition-all duration-300 active:scale-95 group"
             >
-              <Lock className="w-4 h-4" />
-              <span>Lock {displayAmount} MON & Create Promise</span>
+              <Lock className="w-4 h-4 text-[#05070A]" />
+              <span>Lock Money & Create Promise ({displayAmount} MON)</span>
             </button>
+
           </div>
         </div>
 
-        {/* Live Preview Container */}
+        {/* Right Column: Live Preview Sticky Card */}
         <div className="lg:col-span-5">
           <PromisePreview
             recipient={recipient}
@@ -140,17 +145,18 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
 
       </div>
 
-      {/* Confirmation Modal */}
-      <ConfirmationModal
-        isOpen={isConfirmModalOpen}
-        onClose={() => setIsConfirmModalOpen(false)}
-        recipient={recipient}
-        amount={amount}
-        promiseType={promiseType}
-        unlockDate={unlockDate}
-        customConditionText={customConditionText}
-        onConfirmSuccess={handleConfirmSuccess}
-      />
+      {/* Confirmation & Web3 Transaction Submission Modal */}
+      {isConfirmModalOpen && (
+        <ConfirmationModal
+          recipient={recipient}
+          amount={amount}
+          promiseType={promiseType}
+          unlockDate={unlockDate}
+          customConditionText={customConditionText}
+          onClose={() => setIsConfirmModalOpen(false)}
+          onSuccess={handleConfirmSuccess}
+        />
+      )}
     </div>
   );
 };

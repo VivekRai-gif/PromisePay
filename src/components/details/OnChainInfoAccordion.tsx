@@ -15,25 +15,25 @@ export const OnChainInfoAccordion: React.FC<OnChainInfoAccordionProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
   return (
-    <div className="rounded-3xl glass-panel border border-white/10 overflow-hidden">
+    <div className="rounded-3xl glass-lime-primary border border-white/10 overflow-hidden">
       {/* Accordion Trigger */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-5 text-left hover:bg-white/[0.03] transition-colors"
       >
         <div className="flex items-center gap-2.5">
-          <Database className="w-4 h-4 text-[#D95B9A]" />
+          <Database className="w-4 h-4 text-[#CFFF00]" />
           <span className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider">
             On-Chain Information
           </span>
-          <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#342031] text-[#E38BB5] border border-[#D95B9A]/30">
+          <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#CFFF00]/10 text-[#CFFF00] border border-[#CFFF00]/30">
             Monad Contract
           </span>
         </div>
         {isOpen ? (
-          <ChevronUp className="w-4 h-4 text-[#8F8991]" />
+          <ChevronUp className="w-4 h-4 text-[#64748B]" />
         ) : (
-          <ChevronDown className="w-4 h-4 text-[#8F8991]" />
+          <ChevronDown className="w-4 h-4 text-[#64748B]" />
         )}
       </button>
 
@@ -43,10 +43,10 @@ export const OnChainInfoAccordion: React.FC<OnChainInfoAccordionProps> = ({
           {/* Contract Address */}
           <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <span className="text-[10px] text-[#8F8991] font-semibold uppercase tracking-wider block mb-0.5">
+              <span className="text-[10px] text-[#64748B] font-semibold uppercase tracking-wider block mb-0.5">
                 Smart Contract
               </span>
-              <span className="text-xs font-mono text-[#C8C1C9] font-bold block truncate">
+              <span className="text-xs font-mono text-[#9AA4B2] font-bold block truncate">
                 {contractAddress}
               </span>
             </div>
@@ -54,7 +54,7 @@ export const OnChainInfoAccordion: React.FC<OnChainInfoAccordionProps> = ({
               href={`https://testnet.monadexplorer.com/address/${contractAddress}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] text-[#E38BB5] hover:text-white font-semibold"
+              className="inline-flex items-center gap-1 text-[11px] text-[#CFFF00] hover:text-white font-semibold"
             >
               <span>Verified Source</span>
               <ExternalLink className="w-3 h-3" />
@@ -64,14 +64,14 @@ export const OnChainInfoAccordion: React.FC<OnChainInfoAccordionProps> = ({
           {/* Network */}
           <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <span className="text-[10px] text-[#8F8991] font-semibold uppercase tracking-wider block mb-0.5">
+              <span className="text-[10px] text-[#64748B] font-semibold uppercase tracking-wider block mb-0.5">
                 Network Target
               </span>
-              <span className="text-xs font-semibold text-[#C8C1C9] block">
+              <span className="text-xs font-semibold text-[#9AA4B2] block">
                 {networkName}
               </span>
             </div>
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#19D98B]/15 text-[#19D98B] border border-[#19D98B]/30">
               ● Active RPC
             </span>
           </div>
@@ -79,10 +79,10 @@ export const OnChainInfoAccordion: React.FC<OnChainInfoAccordionProps> = ({
           {/* Transaction Hash */}
           <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <span className="text-[10px] text-[#8F8991] font-semibold uppercase tracking-wider block mb-0.5">
+              <span className="text-[10px] text-[#64748B] font-semibold uppercase tracking-wider block mb-0.5">
                 Creation Tx Hash
               </span>
-              <span className="text-xs font-mono text-[#E38BB5] font-bold block truncate">
+              <span className="text-xs font-mono text-[#CFFF00] font-bold block truncate">
                 {txHash}
               </span>
             </div>
@@ -90,7 +90,7 @@ export const OnChainInfoAccordion: React.FC<OnChainInfoAccordionProps> = ({
               href={`https://testnet.monadexplorer.com/tx/${txHash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] text-[#E38BB5] hover:text-white font-semibold"
+              className="inline-flex items-center gap-1 text-[11px] text-[#CFFF00] hover:text-white font-semibold"
             >
               <span>View Explorer</span>
               <ExternalLink className="w-3 h-3" />

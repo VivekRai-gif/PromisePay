@@ -34,17 +34,17 @@ export const PromisePreview: React.FC<PromisePreviewProps> = ({
   };
 
   return (
-    <div className="relative rounded-3xl p-6 glass-card-mauve border border-[#D95B9A]/30 shadow-card overflow-hidden sticky top-24">
+    <div className="relative rounded-3xl p-6 glass-lime-primary border border-[#CFFF00]/30 shadow-card overflow-hidden sticky top-24">
       {/* Background glow orb */}
-      <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-[#C66B9B]/20 via-[#4B304F]/15 to-transparent rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-[#CFFF00]/15 via-[#19D98B]/10 to-transparent rounded-full blur-2xl pointer-events-none" />
 
       {/* Header */}
       <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
-        <div className="flex items-center gap-2 text-xs font-bold text-[#E38BB5] uppercase tracking-wider">
-          <Sparkles className="w-4 h-4 text-[#D95B9A]" />
+        <div className="flex items-center gap-2 text-xs font-bold text-[#CFFF00] uppercase tracking-wider">
+          <Sparkles className="w-4 h-4 text-[#CFFF00]" />
           <span>Promise Preview</span>
         </div>
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#342031] text-[#E38BB5] border border-[#D95B9A]/30">
+        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#CFFF00]/10 text-[#CFFF00] border border-[#CFFF00]/30 font-mono">
           🔒 Pending Lock
         </span>
       </div>
@@ -53,42 +53,42 @@ export const PromisePreview: React.FC<PromisePreviewProps> = ({
       <div className="space-y-4">
         {/* Amount */}
         <div>
-          <span className="text-[10px] uppercase font-semibold text-[#8F8991] tracking-wider block mb-0.5">
+          <span className="text-[10px] uppercase font-semibold text-[#64748B] tracking-wider block mb-0.5">
             You Promise
           </span>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#E38BB5] to-[#A984C4]">
+            <span className="text-3xl font-extrabold text-[#CFFF00] lime-glow">
               {displayAmount}
             </span>
-            <span className="text-base font-bold text-[#E38BB5]">MON</span>
+            <span className="text-base font-bold text-[#19D98B]">MON</span>
           </div>
         </div>
 
         {/* Recipient */}
         <div className="p-3 rounded-2xl bg-white/[0.03] border border-white/10">
-          <span className="text-[10px] uppercase font-semibold text-[#8F8991] tracking-wider block mb-1">
+          <span className="text-[10px] uppercase font-semibold text-[#64748B] tracking-wider block mb-1">
             Recipient
           </span>
-          <div className="flex items-center gap-2 text-xs font-mono text-[#C8C1C9] font-semibold">
-            <User className="w-3.5 h-3.5 text-[#D95B9A]" />
+          <div className="flex items-center gap-2 text-xs font-mono text-[#9AA4B2] font-semibold">
+            <User className="w-3.5 h-3.5 text-[#CFFF00]" />
             <span>{displayRecipient}</span>
           </div>
         </div>
 
         {/* Condition */}
         <div className="p-3 rounded-2xl bg-white/[0.03] border border-white/10">
-          <span className="text-[10px] uppercase font-semibold text-[#8F8991] tracking-wider block mb-1">
+          <span className="text-[10px] uppercase font-semibold text-[#64748B] tracking-wider block mb-1">
             Condition
           </span>
-          <div className="flex items-center gap-2 text-xs font-semibold text-[#C8C1C9]">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <div className="flex items-center gap-2 text-xs font-semibold text-[#9AA4B2]">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#19D98B]" />
             <span>{getConditionLabel()}</span>
           </div>
         </div>
 
         {/* Status indicator */}
-        <div className="p-3 rounded-2xl bg-[#342031]/80 border border-[#D95B9A]/30 text-center">
-          <span className="text-xs font-semibold text-[#E38BB5] flex items-center justify-center gap-1.5">
+        <div className="p-3 rounded-2xl bg-[#CFFF00]/10 border border-[#CFFF00]/30 text-center">
+          <span className="text-xs font-semibold text-[#CFFF00] flex items-center justify-center gap-1.5">
             <Lock className="w-3.5 h-3.5" />
             <span>🔒 Funds will be locked in smart contract</span>
           </span>

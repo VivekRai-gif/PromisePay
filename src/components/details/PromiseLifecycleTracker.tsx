@@ -48,12 +48,12 @@ export const PromiseLifecycleTracker: React.FC<PromiseLifecycleTrackerProps> = (
   ];
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 glass-panel border border-white/10 shadow-card">
+    <div className="rounded-3xl p-6 sm:p-8 glass-lime-primary border border-white/10 shadow-card">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-sm font-bold text-white uppercase tracking-wider">
           Promise Lifecycle Tracker
         </h3>
-        <span className="text-xs font-mono text-[#E38BB5]">
+        <span className="text-xs font-mono text-[#CFFF00]">
           State: <strong className="text-white">{status}</strong>
         </span>
       </div>
@@ -69,7 +69,7 @@ export const PromiseLifecycleTracker: React.FC<PromiseLifecycleTrackerProps> = (
               {idx < steps.length - 1 && (
                 <div
                   className={`absolute left-4 top-8 w-0.5 h-full -ml-[1px] transition-colors duration-500 ${
-                    step.isDone ? 'bg-[#D95B9A]/60' : 'bg-white/10'
+                    step.isDone ? 'bg-[#CFFF00]/60' : 'bg-white/10'
                   }`}
                 />
               )}
@@ -78,10 +78,10 @@ export const PromiseLifecycleTracker: React.FC<PromiseLifecycleTrackerProps> = (
               <div
                 className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                   step.isDone
-                    ? 'bg-gradient-to-r from-[#D95B9A] to-[#A984C4] text-white shadow-glowPink'
+                    ? 'bg-gradient-to-r from-[#CFFF00] to-[#19D98B] text-[#05070A] shadow-glowLime font-extrabold'
                     : step.isActive
-                    ? 'bg-[#E38BB5] text-[#0B0A0D] ring-4 ring-[#E38BB5]/30 animate-pulse'
-                    : 'bg-white/[0.05] text-[#8F8991] border border-white/10'
+                    ? 'bg-[#CFFF00] text-[#05070A] ring-4 ring-[#CFFF00]/30 animate-pulse font-extrabold'
+                    : 'bg-white/[0.04] text-[#64748B] border border-white/10'
                 }`}
               >
                 <IconComp className="w-4 h-4" />
@@ -92,7 +92,7 @@ export const PromiseLifecycleTracker: React.FC<PromiseLifecycleTrackerProps> = (
                 <div className="flex items-center justify-between">
                   <h4
                     className={`text-sm font-bold tracking-tight ${
-                      step.isDone || step.isActive ? 'text-white' : 'text-[#8F8991]'
+                      step.isDone || step.isActive ? 'text-white' : 'text-[#64748B]'
                     }`}
                   >
                     {step.label}
@@ -100,16 +100,16 @@ export const PromiseLifecycleTracker: React.FC<PromiseLifecycleTrackerProps> = (
                   <span
                     className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full ${
                       step.isDone
-                        ? 'bg-[#342031] text-[#E38BB5] border border-[#D95B9A]/30'
+                        ? 'bg-[#CFFF00]/15 text-[#CFFF00] border border-[#CFFF00]/30'
                         : step.isActive
-                        ? 'bg-[#4B304F] text-[#E38BB5]'
-                        : 'bg-white/[0.03] text-[#8F8991]'
+                        ? 'bg-[#19D98B]/15 text-[#19D98B]'
+                        : 'bg-white/[0.03] text-[#64748B]'
                     }`}
                   >
                     {step.statusText}
                   </span>
                 </div>
-                <p className="text-xs text-[#C8C1C9] mt-0.5 font-normal">{step.description}</p>
+                <p className="text-xs text-[#9AA4B2] mt-0.5 font-normal">{step.description}</p>
               </div>
             </div>
           );

@@ -1,31 +1,26 @@
 import React from 'react';
-import { CheckCircle2, Sparkles, AlertCircle, X } from 'lucide-react';
+import { Sparkles, X } from 'lucide-react';
 
 interface ToastProps {
   message: string | null;
-  type?: 'success' | 'info' | 'error';
   onClose: () => void;
 }
 
-export const Toast: React.FC<ToastProps> = ({ message, type = 'success', onClose }) => {
+export const Toast: React.FC<ToastProps> = ({ message, onClose }) => {
   if (!message) return null;
 
   return (
-    <div className="fixed top-20 right-4 z-50 flex items-center gap-3 p-4 rounded-2xl bg-[#0F0D1B]/90 backdrop-blur-xl border border-purple-500/30 text-white shadow-2xl shadow-purple-950/50 animate-slideDown max-w-sm">
-      <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0">
-        {type === 'success' ? (
-          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-        ) : (
-          <Sparkles className="w-4 h-4 text-purple-400" />
-        )}
+    <div className="fixed top-20 right-4 lg:right-8 z-50 max-w-md animate-fadeIn">
+      <div className="flex items-center gap-3 p-4 rounded-2xl glass-lime-primary border border-[#CFFF00]/40 text-white shadow-glowLime text-xs font-semibold">
+        <Sparkles className="w-4 h-4 text-[#CFFF00] shrink-0" />
+        <span className="flex-1 font-mono text-[#F8FAFC]">{message}</span>
+        <button
+          onClick={onClose}
+          className="p-1 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-[#9AA4B2] hover:text-white transition-colors"
+        >
+          <X className="w-3.5 h-3.5" />
+        </button>
       </div>
-      <span className="text-xs font-semibold text-slate-200 leading-snug">{message}</span>
-      <button
-        onClick={onClose}
-        className="p-1 rounded-lg text-slate-400 hover:text-white transition-colors"
-      >
-        <X className="w-4 h-4" />
-      </button>
     </div>
   );
 };
