@@ -1,17 +1,27 @@
 import React from 'react';
-import { User, Wallet, CheckCircle2 } from 'lucide-react';
+import { User, Wallet, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 interface RecipientInputProps {
   value: string;
   onChange: (value: string) => void;
+  connectedAddress?: string;
 }
 
-export const RecipientInput: React.FC<RecipientInputProps> = ({ value, onChange }) => {
-  const isValidAddress = value.startsWith('0x') && value.length >= 10;
+export const RecipientInput: React.FC<RecipientInputProps> = ({
+  value,
+  onChange,
+  connectedAddress = '0x7A291AC829F4B1A7D832E91AF203102948219048291AC',
+}) => {
+  const isValidAddress = value.startsWith('0x') && value.length === 42 && !value.includes('...');
+
+  const fullConnectedAddr = (connectedAddress && connectedAddress.length === 42 && !connectedAddress.includes('...'))
+    ? connectedAddress
+    : '0x7A291AC829F4B1A7D832E91AF203102948219048291AC';
 
   const presets = [
-    { label: 'Deployed Contract', address: '0x829F4B1A7D832E91AF203102948219048291A91C' },
-    { label: 'Friend Wallet', address: '0x7291AC829F4B1A7D832E91AF203102948219048291AC' },
+    { label: 'Self Promise (My Wallet)', address: fullConnectedAddr, icon: ShieldCheck },
+    { label: 'Deployed Contract', address: '0x829F4B1A7D832E91AF203102948219048291A91C', icon: Wallet },
+    { label: 'Friend Wallet', address: '0x7291AC829F4B1A7D832E91AF203102948219048291AC', icon: User },
   ];
 
   return (
@@ -42,20 +52,29 @@ export const RecipientInput: React.FC<RecipientInputProps> = ({ value, onChange 
       </div>
 
       {/* Quick Select Presets */}
-      <div className="flex items-center gap-2 pt-1">
+      <div className="flex flex-wrap items-center gap-2 pt-1">
         <span className="text-[11px] text-[#64748B] font-medium">Quick Select:</span>
-        {presets.map((p, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={() => onChange(p.address)}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#9AA4B2] hover:text-[#CFFF00] border border-white/10 text-[11px] font-mono font-semibold transition-all"
-          >
-            <Wallet className="w-3 h-3 text-[#CFFF00]" />
-            <span>{p.label}</span>
-          </button>
-        ))}
+        {presets.map((p, idx) => {
+          const IconComp = p.icon;
+          const isSelected = value === p.address;
+          return (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => onChange(p.address)}
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[11px] font-mono font-semibold transition-all ${
+                isSelected
+                  ? 'bg-[#CFFF00]/20 text-[#CFFF00] border border-[#CFFF00]/50 shadow-glowLime'
+                  : 'bg-white/[0.04] hover:bg-white/[0.08] text-[#9AA4B2] hover:text-[#CFFF00] border border-white/10'
+              }`}
+            >
+              <IconComp className="w-3 h-3 text-[#CFFF00]" />
+              <span>{p.label}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
 };
+

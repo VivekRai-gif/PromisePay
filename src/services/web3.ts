@@ -186,12 +186,24 @@ export async function executeCreatePromiseOnChain(
 
   const provider = new ethers.BrowserProvider(window.ethereum);
   const signer = await provider.getSigner();
-  const contract = new ethers.Contract(CONTRACT_ADDRESS, PROMISE_PAY_ABI, signer);
 
+  let validRecipient = recipient?.trim();
+
+  // Validate EVM address to prevent ethers from attempting ENS lookup on Monad Testnet
+  if (!validRecipient || !ethers.isAddress(validRecipient)) {
+    if (validRecipient && validRecipient.includes('...')) {
+      // If truncated address was passed (e.g. self promise or formatted address), fallback to connected signer address
+      validRecipient = await signer.getAddress();
+    } else {
+      throw new Error(`Invalid EVM recipient address: "${recipient}". Please provide a full 42-character EVM address (e.g., 0x829F...).`);
+    }
+  }
+
+  const contract = new ethers.Contract(CONTRACT_ADDRESS, PROMISE_PAY_ABI, signer);
   const parsedValue = ethers.parseEther(amountMON || '1.0');
   
-  console.log('🚀 Invoking createPromise on Monad Testnet contract:', CONTRACT_ADDRESS);
-  const tx = await contract.createPromise(recipient, condition, {
+  console.log('🚀 Invoking createPromise on Monad Testnet contract:', CONTRACT_ADDRESS, 'Recipient:', validRecipient);
+  const tx = await contract.createPromise(validRecipient, condition, {
     value: parsedValue,
   });
 

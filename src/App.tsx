@@ -151,6 +151,10 @@ export function App() {
       prev.map((p) => (p.id === promise.id ? { ...p, status: 'VERIFIED' as const } : p))
     );
 
+    if (selectedPromise && selectedPromise.id === promise.id) {
+      setSelectedPromise((prev) => (prev ? { ...prev, status: 'VERIFIED' } : null));
+    }
+
     const newActivity: ActivityItem = {
       id: `act-${Date.now()}`,
       type: 'verified',
@@ -180,6 +184,10 @@ export function App() {
     setPromises((prev) =>
       prev.map((p) => (p.id === promise.id ? { ...p, status: 'FULFILLED' as const } : p))
     );
+
+    if (selectedPromise && selectedPromise.id === promise.id) {
+      setSelectedPromise((prev) => (prev ? { ...prev, status: 'FULFILLED' } : null));
+    }
 
     const newActivity: ActivityItem = {
       id: `act-${Date.now()}`,
@@ -267,6 +275,7 @@ export function App() {
           onBack={handleNavigateHome}
           onCreatePromise={handleCreatePromise}
           userBalance={walletState.balance}
+          userAddress={walletState.fullAddress || walletState.address}
         />
       ) : currentView === 'detail' && selectedPromise ? (
         <PromiseDetailsPage

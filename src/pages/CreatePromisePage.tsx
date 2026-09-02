@@ -12,14 +12,20 @@ interface CreatePromisePageProps {
   onBack: () => void;
   onCreatePromise: (newPromise: PromiseItem) => void;
   userBalance?: number;
+  userAddress?: string;
 }
 
 export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
   onBack,
   onCreatePromise,
   userBalance = 0.0,
+  userAddress = '0x7A291AC829F4B1A7D832E91AF203102948219048291AC',
 }) => {
-  const [recipient, setRecipient] = useState<string>('0x829F4B1A7D832E91AF203102948219048291A91C');
+  const fullUserAddr = (userAddress && userAddress.length === 42 && !userAddress.includes('...'))
+    ? userAddress
+    : '0x829F4B1A7D832E91AF203102948219048291A91C';
+
+  const [recipient, setRecipient] = useState<string>(fullUserAddr);
   const [amount, setAmount] = useState<string>('1.0');
   const [promiseType, setPromiseType] = useState<PromiseTypeKey>('graduation');
   const [unlockDate, setUnlockDate] = useState<string>('2026-08-29');
@@ -74,7 +80,7 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
       id: `p-${Date.now()}`,
       title: getTemplateTitle(promiseType),
       recipient: recipient.length > 12 ? `${recipient.slice(0, 6)}...${recipient.slice(-4)}` : recipient,
-      sender: '0x7A29...91F2',
+      sender: userAddress ? (userAddress.length > 12 ? `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}` : userAddress) : '0x7A29...91F2',
       amount: parseFloat(amount) || 1.0,
       token: 'MON',
       condition: conditionTitle,
@@ -82,7 +88,7 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
       createdAt: 'Just now',
       category: mapCategory(promiseType),
       txHash: txHash || `0x${Math.random().toString(16).substring(2, 12)}...`,
-      description: `Programmable MON promise created on Monad Testnet smart contract.`,
+      description: `Programmable MON promise created on Monad Testnet smart contract vault.`,
     };
 
     onCreatePromise(newPromise);
@@ -112,7 +118,7 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
             </span>
           </div>
           <p className="text-xs sm:text-sm text-[#9AA4B2] font-medium">
-            Lock money today. Release it when your promise is fulfilled.
+            Lock money today behind a verifiable condition. Come back & claim funds when fulfilled!
           </p>
         </div>
       </div>
@@ -125,7 +131,7 @@ export const CreatePromisePage: React.FC<CreatePromisePageProps> = ({
           <div className="rounded-3xl p-6 sm:p-7 glass-eye-primary border border-white/10 shadow-card space-y-6">
 
             {/* Field 1: Recipient Input */}
-            <RecipientInput value={recipient} onChange={setRecipient} />
+            <RecipientInput value={recipient} onChange={setRecipient} connectedAddress={userAddress} />
 
             {/* Field 2: Amount Input */}
             <AmountInput value={amount} onChange={setAmount} userBalance={userBalance} />

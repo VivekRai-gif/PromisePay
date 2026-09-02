@@ -227,6 +227,19 @@ export const PromiseDetailsPage: React.FC<PromiseDetailsPageProps> = ({
             </div>
           )}
 
+          {/* Condition Matched Ready to Claim Callout Banner */}
+          {promise.status === 'VERIFIED' && (
+            <div className="p-4 rounded-2xl bg-[#A3E635]/15 border border-[#A3E635]/40 mb-6 space-y-1 animate-fadeIn">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#A3E635]">
+                <Sparkles className="w-4 h-4 text-[#A3E635]" />
+                <span>🎉 Condition Matched! Funds Ready to Claim</span>
+              </div>
+              <p className="text-xs text-white/90 font-medium">
+                The condition for this promise has been verified on Monad Testnet. You can now click below to claim and retrieve {promise.amount} MON directly into your wallet!
+              </p>
+            </div>
+          )}
+
           {/* Action Trigger Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-4 border-t border-white/10">
             {promise.status === 'LOCKED' && (
