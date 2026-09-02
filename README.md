@@ -163,10 +163,21 @@ npx hardhat test
 
 ## 🎬 Cinematic Product Demo & Presentation
 
-- **Tagline:** *"Don't just make a promise. Program it."*
-- **Demo Script:** [`promisepay_demo_video_script.md`](file:///C:/Users/ASUS/.gemini/antigravity-ide/brain/84da2bad-76fb-4f14-8642-1372eb672811/promisepay_demo_video_script.md)
+### 🎥 Watch PromisePay in Action
 
----
+[![PromisePay Demo](https://img.youtube.com/vi/5-BIfuGKfcY/maxresdefault.jpg)](https://youtu.be/5-BIfuGKfcY)
+
+> **What if a promise could enforce itself?**
+
+**PromisePay — Programmable Money on Monad**
+
+**Create → Lock → Verify → Claim**
+
+▶️ **[Watch the full demo on YouTube](https://youtu.be/5-BIfuGKfcY)**
+
+- **Tagline:** *"Don't just make a promise. Program it."*
+- **Demo Video:** https://youtu.be/5-BIfuGKfcY
+- **Demo Script:** [`promisepay_demo_video_script.md`](file:///C:/Users/ASUS/.gemini/antigravity-ide/brain/84da2bad-76fb-4f14-8642-1372eb672811/promisepay_demo_video_script.md)
 
 ## 🗺 Future Roadmap
 
@@ -176,10 +187,6 @@ npx hardhat test
 
 ---
 
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
----
 Contact Details : 
 email id: vivekrai2416@gmail.com
 phone no. : +91 9354632327 
